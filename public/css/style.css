@@ -1,0 +1,36 @@
+:root{
+    --colorGray : #121212;
+    --colorWhite : white;
+}
+
+body{
+    background-color: black;
+}
+
+.bg-gray{
+    background-color: var(--colorGray);
+}
+.text-white{
+    color:var(--colorWhite);
+}
+
+.loginBackground {
+    background-image: url('loginBackground.jpg');
+    background-size: cover;
+}
+
+.uploadButton{
+    width: 0.1px;
+    height: 0.1px;
+}
+.bs-actionsbox{
+    width: 100%!important;
+}
+
+.btn-group button{
+    width: 100%!important;
+}
+
+#listFavourites>li{
+    padding: 0.25rem;
+}
