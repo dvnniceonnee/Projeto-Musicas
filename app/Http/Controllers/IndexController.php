@@ -25,7 +25,7 @@ class IndexController extends Controller
         $randomMusics = Arr::take(Arr::shuffle(Music::get()->all()), 15);
         foreach ($randomMusics as $music){
             $bandName = Band::where('id', $music->band_id)->first();
-            $music = Arr::add($music, 'band_name', $bandName->name);
+            Arr::add($music, 'band_name', $bandName->name);
         }
         return $randomMusics;
 

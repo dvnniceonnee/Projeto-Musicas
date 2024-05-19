@@ -27,14 +27,12 @@ Route::Post('/album/create', [AlbumController::class, 'storeAlbum'])->name('stor
 Route::Get('/album/{id}', [AlbumController::class, 'indexAlbum'])->name('index_album');
 
 
-Route::get('/', [IndexController::class, 'getHomeView'])->name('route_home');
-Route::get('/user/profile', [IndexController::class, function () {
-    return view('user.profile');
-}])->name('user_profile');
-Route::post('/register/create/user', [UserController::class, 'registerUser'])->name('register_user');
-Route::get('/user/admin/dashboard', [IndexController::class, function () {
-    return view('user.dashboard_admin');
-}])->name('user_admin_dashboard');
+Route::get('/home', [IndexController::class, 'getHomeView'])->name('route_home');
+
+// User
+Route::get('/user/profile', [UserController::class,'indexUser' ])->name('user_profile');
+Route::post('/register', [UserController::class, 'registerUser'])->name('register_user');
+Route::get('/user/dashboard', [UserController::class, 'dashboardView'])->name('user_dashboard');
 
 
 Route::get('/all/{id}', [IndexController::class, 'getPage'])->name('route_Page');

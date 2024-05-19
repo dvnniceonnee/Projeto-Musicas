@@ -4,6 +4,11 @@
         <div class="d-flex flex-column flex-md-row col-10 my-auto h-100 m-auto">
             <div class="d-flex align-items-center col-10 col-md-5 bg-white rounded-start py-5 px-2 mx-auto text-center me-md-0 ">
                 <div class="d-flex flex-column my-5 w-75 mx-auto">
+                    @if(session('message'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('message') }}
+                        </div>
+                    @endif
                     <h2>
                         Login to Your Account
                     </h2>
