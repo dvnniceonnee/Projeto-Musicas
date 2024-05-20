@@ -48,15 +48,16 @@ class AlbumController extends Controller
     }
 
     public function storeAlbum(Request $request){
+//        dd($request->all());
         $request->validate([
             'album_name'=> 'unique:albums,name|required|max:255',
             'released_at' => 'date|required',
             'band_id'=> 'required|exists:bands,id',
-            'album_image'=> 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
+//            'album_image'=> 'nullable|image|max:10000',
         ]);
         $photo = null;
         if($request->hasFile('album_image')) {
-            $photo = Storage::putFile('music/', $request->band_image);
+            $photo = Storage::putFile("albums/", $request->album_image);
         }
         $newMusic = Album::insert([
             'name'=>$request->album_name,
@@ -66,5 +67,48 @@ class AlbumController extends Controller
         ]);
 
         return redirect()->back();
+    }
+
+    public function editAlbumView($albumId){
+        $album = Album::where('id', $albumId)->first();
+        if($album){
+            $randomBarMusics = IndexController::getRandomMusics();
+            return view('musics.edit_album', compact('album', 'randomBarMusics'));
+        }
+        else{
+            return redirect()->route('route_home');
+        }
+
+    }
+
+    public function editAlbum(Request $request){
+        $album = Album::where('id', $request->id)->first();
+        if($request->album_name == $album->name )
+        {
+            $request->validate([
+                'album_released_at' => 'date',
+                'album_photo' => 'image'
+            ]);
+        }else{
+            $request->validate([
+                'album_name'=> 'unique:albums,name|max:255',
+                'album_released_at' => 'date',
+                'album_photo' => 'image'
+            ]);
+        }
+        $photo = null;
+        if ($request->hasFile('album_photo')) {
+            if($album->photo){
+                Storage::delete($album->photo);
+            }
+            $photo = Storage::putFile("albums/",$request->album_photo);
+        }
+        Album::where('id', $request->id)->update([
+            'name' => $request->album_name,
+            'released_at' => $request->album_released_at,
+            'photo' => $photo ? $photo : $album->photo,
+        ]);
+
+        return redirect()->back()->with('message', 'Album atualizado com sucesso!');
     }
 }

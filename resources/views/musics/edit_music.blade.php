@@ -33,6 +33,11 @@
             </div>
 
             <div class="card mb-3 mt-4 mx-2 bg-gray border-0" style="max-width: 750px;">
+                @if(session('message'))
+                    <div class="alert alert-success text-center d-inline mx-auto" role="alert">
+                        {{ session('message')}}
+                    </div>
+                @endif
                 <form action="{{route('edit_music')}}" method="POST" enctype="multipart/form-data" class="row">
                     @csrf
                     <div class="col-md-6 position-relative mx-auto w-50">
@@ -48,8 +53,8 @@
                         </button>
                     </div>
                     <div class="col-md-5 d-flex flex-column">
-                        <div class="container d-flex flex-column justify-content-end mt-3 col-6 me-0">
-                            <button type="submit" class="btn btn-warning col-12 my-2 rounded-pill">Salvar</button>
+                        <div class="container d-flex flex-column justify-content-end mt-3 col-8 me-0">
+                            <button type="submit" class="btn btn-warning col-12 my-2 rounded-pill ">Salvar</button>
                             <button class="btn btn-danger col-12 rounded-pill" type="button" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">Apagar Musica
                             </button>
@@ -58,11 +63,11 @@
                             <input type="text" name="id" value="{{$music->id}}" hidden="">
                             <label for="InputMusicName">Nome da Musica</label>
                             <input type="text" class="form-control text-dark mb-3 d-inline fs-5" id="InputMusicName"
-                                   placeholder="{{$music->name}}" name="music_name">
+                                   placeholder="{{$music->name}}" value="{{$music->name}}" name="music_name">
                             <label for="inputMusicLength">Length da Musica</label>
                             <input type="text" class="form-control text-dark mb-3 d-inline" id="inputMusicLength"
-                                   placeholder="Length : {{$music->length}} min" name="music_length">
-                            <h5 class="card-title">Band : Coldplay</h5>
+                                   placeholder="Length : {{$music->length}} min" value="{{$music->length}}" name="music_length">
+                            <h5 class="card-title">Band : {{$music->band_name}}</h5>
                             <h5 class="card-title">Album : {{$music->album_name}}</h5>
                         </div>
                     </div>

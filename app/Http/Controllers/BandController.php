@@ -14,23 +14,27 @@ use function Sodium\add;
 
 class BandController extends Controller
 {
-    public function viewBand($idBand){
+    public function viewBand($idBand)
+    {
         $band = $this->getDetailsBand($idBand);
         $allAlbumsOfBand = $this->getAlbumsOfBand($idBand);
         $randomBarMusics = IndexController::getRandomMusics();
-/*
-        $allMusicsOfBand = Arr::where($allMusics, function($value) use ($id) {
-            return $value['band_id'] == $id;
-        });*/
+        /*
+                $allMusicsOfBand = Arr::where($allMusics, function($value) use ($id) {
+                    return $value['band_id'] == $id;
+                });*/
         $allMusicsOfBand = Music::where('band_id', $idBand)->paginate(10);
         return view('musics.index_band', compact('band', 'allAlbumsOfBand', 'allMusicsOfBand', 'randomBarMusics'));
     }
 
-    public static function getAlbumsOfBand($idBand){
+    public static function getAlbumsOfBand($idBand)
+    {
         $albumsOfBand = Album::where('band_id', $idBand)->get();
         return $albumsOfBand;
     }
-    private function getDetailsBand($id){
+
+    private function getDetailsBand($id)
+    {
         $band = Band::where('id', $id)->get()->first();
         $countryBand = DB::table('countries')->where('id', $band->country_id)->first()->name;
         $band = Arr::add($band, 'band_country', $countryBand);
@@ -42,7 +46,8 @@ class BandController extends Controller
      * @param $id Id of The band that we want to search for the genres
      * @return array With all the genres names
      */
-    public static function getGenresOfBand($id){
+    public static function getGenresOfBand($id)
+    {
         $genresBand = DB::table('bandgeneros')->where('band_id', $id)->get();
         $genres = [];
         foreach ($genresBand as $genre) {
@@ -52,41 +57,43 @@ class BandController extends Controller
         return $genres;
     }
 
-    public function createBandView(){
+    public function createBandView()
+    {
         $paises = DB::table("countries")->get()->all();
         $randomBarMusics = IndexController::getRandomMusics();
         $genres = Genero::get()->all();
         return view('musics.create_band', compact('paises', 'genres', 'randomBarMusics'));
     }
-    public function storeBand(Request $request){
+
+    public function storeBand(Request $request)
+    {
         $request->validate([
             'band_name' => 'required|unique:bands,name',
             'band_released_at' => 'date|nullable',
             'country_band' => 'exists:countries,id',
             'inputGenres' => 'present|array',
-            'inputGenres.*'=> 'exists:generos,id',
-            'photo'=> 'max:10000',
+            'inputGenres.*' => 'exists:generos,id',
+            'photo' => 'max:10000',
         ]);
-        if($request->hasFile('photo')) {
+        if ($request->hasFile('photo')) {
             $photo = Storage::putFile('bands/', $request->photo);
             $newBand = Band::insertGetId([
-                'name'=>$request->band_name,
-                'founded_at'=>$request->band_released_at,
-                'photo'=> $photo,
-                'country_id'=>$request->country_band,
+                'name' => $request->band_name,
+                'founded_at' => $request->band_released_at,
+                'photo' => $photo,
+                'country_id' => $request->country_band,
             ]);
 
-        }
-        else{
+        } else {
             $newBand = Band::insertGetId([
-                'name'=>$request->band_name,
-                'founded_at'=>$request->band_released_at,
-                'photo'=> 'music/musicCoverDefault.png',
-                'country_id'=>$request->country_band,
+                'name' => $request->band_name,
+                'founded_at' => $request->band_released_at,
+                'photo' => 'music/musicCoverDefault.png',
+                'country_id' => $request->country_band,
             ]);
         }
 
-        foreach($request->inputGenres as $genre){
+        foreach ($request->inputGenres as $genre) {
             DB::table('bandgeneros')->insert([
                 'band_id' => $newBand,
                 'genero_id' => $genre
@@ -95,46 +102,49 @@ class BandController extends Controller
         return redirect()->route('user_dashboard');
     }
 
-    public function editband(Request $request){
+    public function editband(Request $request)
+    {
         $band = Band::where('id', $request->id)->first();
-        if($request->band_name == $band->name){
+        if ($request->band_name == $band->name) {
             $request->validate([
-            'band_founded_at' => 'date|nullable',
-            'band_image' => 'image'
+                'band_founded_at' => 'date|nullable',
+                'band_image' => 'image',
+                'band_country' => 'exists:countries,id',
             ]);
-        }
-        else{
+        } else {
             $request->validate([
-                'band_name'=> 'string|unique:bands,name',
-                'band_founded_at' => 'date',
-                'band_image' => 'image'
+                'band_name' => 'string|unique:bands,name',
+                'band_founded_at' => 'date|nullable',
+                'band_image' => 'image|nullable',
+                'band_country' => 'exists:countries,id',
             ]);
         }
         $photo = null;
-        if($request->hasFile('band_image')) {
+        if ($request->hasFile('band_image')) {
+            Storage::delete($band->photo);
             $photo = Storage::putFile("bands/", $request->band_image);
-            Band::where('id', $request->id)->update([
-                'name'=> $request->band_name,
-                'founded_at'=> $request->founded_at,
-                'photo'=>$photo
-            ]);
-        }else{
-            Band::where('id', $request->id)->update([
-                'name'=> $request->band_name,
-                'founded_at'=> $request->founded_at
-            ]);
         }
+        Band::where('id', $request->id)->update([
+            'name' => $request->band_name,
+            'founded_at' => $request->band_founded_at,
+            'photo' => $photo ? $photo : $band->photo,
+            'country_id' => $request->band_country
+        ]);
         return redirect()->back()->with('message', 'Band Atualizada com sucesso!');
 
     }
 
-    public function editBandView($bandId){
+    public function editBandView($bandId)
+    {
+        $countries = DB::table("countries")->get()->all();
         $randomBarMusics = IndexController::getRandomMusics();
-        $band =  Band::where('id', $bandId)->get()->first();
-        return view('musics.edit_band', compact('band', 'randomBarMusics'));
+        $band = Band::where('id', $bandId)->get()->first();
+        return view('musics.edit_band', compact('band', 'randomBarMusics', 'countries'));
 
     }
-    public function deleteBand($bandId){
+
+    public function deleteBand($bandId)
+    {
         Band::where('id', $bandId)->delete();
         return redirect()->route('user_dashboard');
     }

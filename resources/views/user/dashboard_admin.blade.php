@@ -23,14 +23,14 @@
                             <tbody class="table-group-divider text-center">
                             @foreach($allBands as $band)
                                 <tr>
-                                    <td class="p-1"><img src="{{asset('storage/'.$band->photo)}}"
-                                                         class="w-50 rounded-3 d-block mx-auto" alt=""></td>
-                                    <td>{{$band->name}}</td>
+                                    <td class="p-1"><a href="{{route('index_band', $band->id)}}"><img src="{{asset('storage/'.$band->photo)}}"
+                                                         class="w-50 rounded-3 d-block mx-auto" alt=""></a></td>
+                                    <td><a href="{{route('index_band', $band->id)}}">{{$band->name}}</a></td>
                                     <td>{{$band->founded_in}}</td>
                                     <td class="text-center">{{$band->founded_at}}</td>
                                     <td>
-                                        <button class="btn btn-warning rounded-circle px-1 py-0"><i
-                                                class="bi bi-pencil-square"></i></button>
+                                        <a class="btn btn-warning rounded-circle px-1 py-0" href="{{route('edit_band_view', $band->id)}}"><i
+                                                class="bi bi-pencil-square"></i></a>
                                     </td>
                                     <td>
                                         <button class="btn btn-danger rounded-circle px-1 py-0"><i
@@ -47,7 +47,7 @@
                 <div class="d-flex flex-column p-3 text-white bg-gray rounded vh-100">
                     <div class="d-flex d-flex justify-content-between mb-3">
                         <h4 class="rounded-pill">Lista de Albums</h4>
-                        <a href=""><button class="btn btn-dark ">Novo Album <i class="bi bi-plus-lg"></i></button></a>
+                        <a href="{{route('create_album', -1)}}"><button class="btn btn-dark ">Novo Album <i class="bi bi-plus-lg"></i></button></a>
                     </div>
                     <div class="text-white mx-1">
                         <table id="TableAlbums" class="text-white text-center align-middle">
@@ -74,8 +74,8 @@
                                     <td>{{$album->released_at}}</td>
                                     <td class="text-center">{{$album->number_tracks}}</td>
                                     <td>
-                                        <button class="btn btn-warning rounded-circle px-1 py-0"><i
-                                                class="bi bi-pencil-square"></i></button>
+                                        <a href="{{route('edit_album_view', $album->id)}}" class="btn btn-warning rounded-circle px-1 py-0"><i
+                                                class="bi bi-pencil-square"></i></a>
                                     </td>
                                     <td>
                                         <button class="btn btn-danger rounded-circle px-1 py-0"><i

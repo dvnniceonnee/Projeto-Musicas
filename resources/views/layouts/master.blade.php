@@ -31,20 +31,46 @@
             </form>
             @if(Route::has('login'))
                 @auth
-                    <a href="{{route('user_dashboard')}}"><button class="btn btn-warning me-2">Dashboard</button> </a>
-                    <a href="{{route('user_profile')}}"> <img src="{{asset('storage/user/photos/profilePhoto.webp')}}"
-                         class="img-fluid navbar-brand rounded-circle" alt="" width="35" height="30">
-                    </a>
+                    {{--                    <a href="{{route('user_dashboard')}}">--}}
+                    {{--                        <button class="btn btn-warning me-2">Dashboard</button>--}}
+                    {{--                    </a>--}}
+                    {{--                    <a href="{{route('user_profile')}}"> <img src="{{asset('storage/user/photos/profilePhoto.webp')}}"--}}
+                    {{--                                                              class="img-fluid navbar-brand rounded-circle" alt=""--}}
+                    {{--                                                              width="35" height="30">--}}
+                    {{--                    </a>--}}
 
-                    <form action="{{ route('logout') }}" method="POST" class="rounded-circle">
-                        @csrf
-                        <button class="btn btn-danger w-100 text-white col-2 rounded-circle px-2" type="submit"><i class="bi bi-box-arrow-left"></i></button>
-                    </form>
+                    {{--                    <form action="{{ route('logout') }}" method="POST" class="rounded-circle">--}}
+                    {{--                        @csrf--}}
+                    {{--                        <button class="btn btn-danger w-100 text-white col-2 rounded-circle px-2" type="submit"><i--}}
+                    {{--                                class="bi bi-box-arrow-left"></i></button>--}}
+                    {{--                    </form>--}}
                 @else
                     <a class="text-white col-2 text-end text-decoration-none" href="{{route('login')}}"><i
                             class="bi bi-door-open"></i><span class="mx-2">Login</span></a>
                 @endauth
             @endif
+            <div>
+                <a href="{{route('user_profile')}}" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{{asset('storage/user/photos/profilePhoto.webp')}}"
+                         class="img-fluid navbar-brand rounded-circle" alt="" width="35" height="30">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item text-center" href="{{route('user_dashboard')}}">
+                            Profile
+                        </a>
+                    </li>
+                    <li><a class="dropdown-item text-center" href="{{route('user_dashboard')}}">
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="text-center">
+                        <form action="{{ route('logout') }}" method="POST" class="rounded-circle">
+                            @csrf
+                            <button class="btn btn-danger text-white mx-2 " type="submit">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 </header>

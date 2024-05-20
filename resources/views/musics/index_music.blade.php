@@ -19,7 +19,7 @@
                         </div>
                         <div class="card-body text-white d-flex flex-column justify-content-end py-0">
                             <h3 class="card-title fw-bold">{{$music->name}}</h3>
-                            <h5 class="card-title">Band : Coldplay</h5>
+                            <h5 class="card-title">Band : {{$music->band_name}}</h5>
                             <h5 class="card-title">Length : {{$music->length}} min </h5>
                             <h5 class="card-title">Album : {{$music->album_name}}</h5>
                         </div>
@@ -28,7 +28,7 @@
             </div>
             <div class="d-flex flex-column mt-5">
                 <div class="container-fluid ">
-                    <h4 class="text-white">Some Musics of <span class="fw-bold">Coldplay</span></h4>
+                    <h4 class="text-white">Some Musics of <span class="fw-bold">{{$music->band_name}}</span></h4>
                     <div class="row p-0 mt-3">
                         @foreach($randomMusics as $music)
                             <a class="card col-3 col-md-2 col-lg-1 bg-gray border-0 mb-2 text-white text-decoration-none"

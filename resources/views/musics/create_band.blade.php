@@ -24,7 +24,6 @@
                             <div class="alert alert-danger" role="alert">
                                 Image file Invalid!
                             </div>
-
                             @enderror
                             <div class="mb-3">
                                 <label for="inputName_band" class="form-label">Nome da Banda</label>
@@ -44,7 +43,7 @@
                             @enderror
                             <div class="mb-2 d-flex flex-column">
                                 <label for="inputBand_genres" class="form-label">Country of the Band</label>
-                                <select class="selectpicker w-100"
+                                <select class="selectpicker w-100 form-control"
                                         data-actions-box="true" name="country_band"
                                         id="inputPais" data-live-search="true" title="Choose the country"
                                         data-live-search-placeholder="Search" data-size="5"

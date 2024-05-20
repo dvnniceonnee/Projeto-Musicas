@@ -5,7 +5,7 @@
             <div class="mb-3 mt-4 mx-2 bg-gray border-0 mx-auto">
                 <div class="row col-md-6 mx-auto">
                     <div class="">
-                        <form action="{{route('store_album')}}" method="POST">
+                        <form action="{{route('store_album')}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="position-relative mx-auto w-50">
                                 <img src="{{asset('files/img/musicCoverDefault.png')}}" id="imageExample"

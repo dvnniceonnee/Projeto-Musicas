@@ -20,14 +20,14 @@
                         </div>
                         <div class="modal-body">
                             <div class="alert alert-danger" role="alert">
-                                Tem a certeza que deseja apagar a musica {{$band->name}} ?
+                                Tem a certeza que deseja apagar a musica {{$album->name}} ?
                             </div>
 
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <a type="button" class="btn btn-primary"
-                               href="{{route('delete_band', $band->id)}}">Apagar</a>
+                               href="{{route('delete_album', $album->id)}}">Apagar</a>
                         </div>
                     </div>
                 </div>
@@ -39,22 +39,22 @@
                         {{ session('message')}}
                     </div>
                 @endif
-                <form action="{{route('edit_band')}}" method="POST" enctype="multipart/form-data" class="row">
+                <form action="{{route('edit_album')}}" method="POST" enctype="multipart/form-data" class="row">
                     @csrf
                     <div class="col-md-6 position-relative mx-auto w-50">
-                        @error('band_image')
+                        @error('album_image')
                         <div class="alert alert-danger" role="alert">
                             Image file Invalid!
                         </div>
                         @enderror
-                        <img src="{{asset('storage/'.$band->photo)}}" id="imageBand"
+                        <img src="{{asset('storage/'.$album->photo)}}" id="imageAlbum"
                              class="img-fluid rounded" alt="...">
                         <button type="button"
                                 class="position-absolute btn btn-dark bg-gray rounded-circle bottom-0 end-0 m-2">
                             <label class="bi bi-folder-plus fs-4 d-inline-block m-auto mt- text-white"
                                    for="inputFile">
-                                <input type="file" accept="image/*" name="band_image" hidden id="inputFile"
-                                       onchange="document.getElementById('imageBand').src = window.URL.createObjectURL(this.files[0])">
+                                <input type="file" accept="image/*" name="album_photo" hidden id="inputFile"
+                                       onchange="document.getElementById('imageAlbum').src = window.URL.createObjectURL(this.files[0])">
                             </label>
                         </button>
                     </div>
@@ -66,31 +66,12 @@
                             </button>
                         </div>
                         <div class="card-body text-white d-flex flex-column justify-content-end">
-                            <input type="text" name="id" value="{{$band->id}}" hidden>
-                            <label for="inputBandName">Nome da Banda</label>
-                            <input type="text" class="form-control text-dark mb-3 d-inline fs-5 @error('band_name') is-invalid @enderror" id="inputBandName"
-                                   placeholder="{{$band->name}}" value="{{$band->name}}" name="band_name">
-                            <input type="date" class="form-control text-dark mb-3 d-inline fs-5 @error('band_founded_at') is-invalid @enderror" id="inputBand_founded_at"
-                                   value="{{$band->founded_at}}" name="band_founded_at">
-                            <div class="mb-2 d-flex flex-column">
-                                <label for="inputBand_genres" class="form-label">Country of the Band</label>
-                                <select class="selectpicker w-100 @error('band_country') is-invalid @enderror"
-                                        data-actions-box="true" name="band_country"
-                                        id="inputPais" data-live-search="true" title="Choose the country"
-                                        data-live-search-placeholder="Search" data-size="5"
-                                        data-selected-text-format="values">
-                                    @foreach($countries as $country)
-                                        @if($country->id == $band->country_id)
-                                            <option selected value="{{$country->id}}">{{$country->name}}</option>
-                                        @else
-                                            <option value="{{$country->id}}">{{$country->name}}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                                @error('country_band')
-                                {{ $message }}
-                                @enderror
-                            </div>
+                            <input type="text" name="id" value="{{$album->id}}" hidden>
+                            <label for="inputAlbum_name">Nome do Album</label>
+                            <input type="text" class="form-control text-dark mb-3 d-inline fs-5 @error('album_name') is-invalid @enderror" id="inputAlbum_name"
+                                   placeholder="{{$album->name}}" value="{{$album->name}}" name="album_name">
+                            <input type="date" class="form-control text-dark mb-3 d-inline fs-5 @error('album_released_at') is-invalid @enderror" id="inputBand_founded_at"
+                                   value="{{$album->released_at}}" name="album_released_at">
                         </div>
                     </div>
                 </form>

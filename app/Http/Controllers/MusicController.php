@@ -57,13 +57,27 @@ class MusicController extends Controller
 
     public function editMusic(Request $request){
         if(isset($request->id)){
-            $request->validate([
-                'music_name' => 'required|unique:musics,name',
-                'music_length' => 'numeric|required',
-                'music_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
+            $music = Music::where('id', $request->id)->first();
+            if($music->name == $request->music_name)
+            {
+                $request->validate([
+                'music_length' => 'numeric',
+                'music_image' => 'nullable|image|max:10000',
             ]);
+
+            }else{
+                $request->validate([
+                    'music_name' => 'required|unique:musics,name',
+                    'music_length' => 'numeric',
+                    'music_image' => 'nullable|image|max:10000',
+                ]);
+            }
+
             $musicPhoto = null;
             if($request->hasFile('music_image')){
+                if($music->photo){
+                    Storage::delete($music->photo);
+                }
                 $musicPhoto = Storage::putFile('music/', $request->music_image);
                 Music::where('id', $request->id)->update([
                     'name' => $request->music_name,
@@ -77,9 +91,8 @@ class MusicController extends Controller
                     'length' => $request->music_length
                 ]);
             }
-
+            return redirect()->back()->with('message', 'Musica atualizada com sucesso');
         }
-
     }
 
     public function storeMusic(Request $request)
@@ -96,14 +109,16 @@ class MusicController extends Controller
         ]);
         $photo = null;
         if ($request->hasFile('music_image')) {
-            $photo = Storage::putFile('music/', $request->band_image);
+            $photo = Storage::putFile('music/', $request->music_image);
         }
-        $newMusic = Music::insert([
+        $newMusic = Music::insertGetId([
             'name' => $request->music_name,
             'photo' => $photo ? $photo : 'music/musicCoverDefault.png',
             'band_id' => $request->band_id,
-            'album_id' => $request->album_id
+            'album_id' => $request->album_id,
+            'length' => $request->music_length
         ]);
+        return redirect()->route('index_music', $newMusic)->with('success', 'Music cadastrado com sucesso!');
 
     }
 

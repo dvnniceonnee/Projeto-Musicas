@@ -13,8 +13,11 @@
                     <div class="col-md-6">
                         <img src="{{asset('storage/'.$album->photo)}}" class="img-fluid rounded" alt="...">
                     </div>
-                    <div class="col-md-6 d-flex align-items-end">
-                        <div class="card-body text-white ">
+                    <div class="col-md-6 d-flex flex-column ">
+                        <div class="container d-flex justify-content-end mt-3">
+                            <a href="{{route('edit_album_view', $album->id)}}" class="btn btn-warning w-25 rounded-pill">Edit</a>
+                        </div>
+                        <div class="card-body text-white d-flex flex-column justify-content-end">
                             <h3 class="card-title fw-bold text-capitalize">{{$album->name}}</h3>
                             <h5 class="card-title">Type : Album</h5>
                             <h5 class="card-title">Band : {{$album->band_name}}</h5>

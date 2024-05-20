@@ -1,6 +1,6 @@
 @extends('layouts.musicBar')
 @section('contentPage')
-    <div class="container-fluid d-flex col-8 col-md-10 me-0 ps-1 pe-0">
+    <div class="container-fluid d-flex col-12 col-md-10 me-0 ps-0 ps-md-1 pe-0">
         <div class="container-fluid ps-2 bg-gray rounded-3 ">
             <div class="d-flex">
                 <button class="btn mx-0 p-1"><i class="bi bi-arrow-left-circle-fill fs-2 text-secundary"></i>
@@ -13,7 +13,7 @@
                     <div class="col-md-6">
                         <img src="{{asset('storage/'.$band->photo)}}" class="img-fluid rounded" alt="...">
                     </div>
-                    <div class="col-md-6 d-flex flex-column align-items-end">
+                    <div class="col-md-6 d-flex flex-column">
                         <div class="container d-flex justify-content-end mt-3">
                             <a href="{{route('edit_band_view', $band->id)}}" class="btn btn-warning w-25 rounded-pill">Edit</a>
                         </div>
@@ -45,12 +45,12 @@
                     <h4 class="text-white text-capitalize">Musics</h4>
                     <div class="row p-0 mt-3 mb-5">
                         @foreach($allMusicsOfBand as $music)
-                        <div class="card col-3 col-md-2 col-lg-1 bg-gray border-0 mb-2 text-white">
+                        <a class="card col-3 col-md-2 col-lg-1 bg-gray border-0 mb-2 text-white" href="{{route('index_music', $music->id)}}">
                             <img src="{{asset('storage/'.$music->photo)}}" class=" rounded" alt="...">
                             <div class="card-body p-0 mx-0 mt-1 w-100">
                                 <h6 class="m-0 fs-6">{{$music->name}}</h6>
                             </div>
-                        </div>
+                        </a>
                         @endforeach
                     </div>
                     {{$allMusicsOfBand->links()}}
