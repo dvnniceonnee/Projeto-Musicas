@@ -58,6 +58,19 @@ function checkBand(element) {
     check.classList.add('btn-success')
 }
 
+function checkAlbum(element) {
+    const checkedAlbum = document.querySelectorAll("[name='album_id']")
+    for (let check of checkedAlbum) {
+        if (check.checked) {
+            console.log(check.id)
+            document.getElementById('label' + check.id).classList.remove('btn-success')
+        }
+    }
+    const checkedlabel = document.getElementById('label' + checkedAlbum)
+    var check = element;
+    check.classList.add('btn-success')
+}
+
 
 let tableBands = new DataTable('#TableBands', {
     responsive: true,
@@ -70,7 +83,7 @@ let tableBands = new DataTable('#TableBands', {
 let tableMusics = new DataTable('#TableMusics', {
     responsive: true,
     pageLength: 10,
-    columns: [{ orderable: false }, { orderable: true }, { orderable: true }, { orderable: true }, { orderable: false },{ orderable: false }],
+    columns: [{ orderable: false }, { orderable: true }, { orderable: true }, { orderable: true }, { orderable: true },{ orderable: false }, { orderable: false }],
     layout: {
         topStart: null,
         topEnd: 'search'
@@ -84,8 +97,7 @@ let tableMusics = new DataTable('#TableMusics', {
 let tableAlbums = new DataTable('#TableAlbums', {
     responsive: true,
     pageLength: 10,
-    TopButton: false,
-    columns: [{ orderable: false, searchable: false }, { orderable: true }, { orderable: true }, { orderable: true }, { orderable: false, searchable: false },{ orderable: false, searchable: false }],
+    columns: [{ orderable: false}, { orderable: true }, { orderable: true}, { orderable: true },{ orderable: true }, { orderable: false},{ orderable: false }],
     layout: {
         topStart: null
     },

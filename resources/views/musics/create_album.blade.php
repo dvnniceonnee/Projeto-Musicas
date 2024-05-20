@@ -51,7 +51,7 @@
                                                         <label class="btn col-3 btn-success" for="option{{$band->id}}" id="labeloption{{$band->id}}"
                                                                onclick="checkBand(this)">
                                                             <div class="card w-100 bg-transparent border-0 mb-2 text-white">
-                                                                <img src="{{asset('files/img/musicCover1.png')}}"
+                                                                <img src="{{asset('storage/'.$band->photo)}}"
                                                                      class=" rounded"
                                                                      alt="...">
                                                                 <div class="card-body p-0 mx-0 mt-1">
@@ -65,7 +65,7 @@
                                                         <label class="btn col-3" for="option{{$band->id}}" id="labeloption{{$band->id}}"
                                                                onclick="checkBand(this)">
                                                             <div class="card w-100 bg-transparent border-0 mb-2 text-white">
-                                                                <img src="{{asset('files/img/musicCover1.png')}}"
+                                                                <img src="{{asset('storage/'.$band->photo)}}"
                                                                      class=" rounded"
                                                                      alt="...">
                                                                 <div class="card-body p-0 mx-0 mt-1">

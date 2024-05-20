@@ -53,8 +53,9 @@ class BandController extends Controller
     }
     public function createBandView(){
         $paises = DB::table("paises")->get()->all();
+        $randomBarMusics = IndexController::getRandomMusics();
         $genres = Genero::get()->all();
-        return view('musics.create_band', compact('paises', 'genres'));
+        return view('musics.create_band', compact('paises', 'genres', 'randomBarMusics'));
     }
     public function storeBand(Request $request){
         $request->validate([
@@ -63,18 +64,26 @@ class BandController extends Controller
             'country_band' => 'exists:paises,id',
             'inputGenres' => 'present|array',
             'inputGenres.*'=> 'exists:generos,id',
-            'band_image'=> 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:10000',
+            'photo'=> 'max:10000',
         ]);
-        $photo = null;
-        if($request->hasFile('band_image')) {
-            $photo = Storage::putFile('user/photos', $request->band_image);
+        if($request->hasFile('photo')) {
+            $photo = Storage::putFile('bands/', $request->photo);
+            $newBand = Band::insertGetId([
+                'name'=>$request->band_name,
+                'founded_at'=>$request->band_released_at,
+                'photo'=> $photo,
+                'pais_id'=>$request->country_band,
+            ]);
+
         }
-        $newBand = Band::insertGetId([
-            'name'=>$request->band_name,
-            'founded_at'=>$request->band_released_at,
-            'photo'=> $photo ? $photo : 'music/musicCoverDefault.png',
-            'pais_id'=>$request->country_band,
-        ]);
+        else{
+            $newBand = Band::insertGetId([
+                'name'=>$request->band_name,
+                'founded_at'=>$request->band_released_at,
+                'photo'=> 'music/musicCoverDefault.png',
+                'pais_id'=>$request->country_band,
+            ]);
+        }
 
         foreach($request->inputGenres as $genre){
             DB::table('bandgeneros')->insert([
@@ -82,6 +91,6 @@ class BandController extends Controller
                 'genero_id' => $genre
             ]);
         }
-        return route('home');
+        return redirect()->route('user_dashboard');
     }
 }

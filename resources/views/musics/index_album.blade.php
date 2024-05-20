@@ -22,7 +22,7 @@
                             <h5 class="card-title">Release at : {{$album->released_at}}</h5>
                             <h6>Genres :
                                 @foreach($album->genres_band as $genre)
-                                       {{$genre}},
+                                       {{$genre['genre_name']}},
                             @endforeach</h6>
                         </div>
                     </div>
@@ -33,12 +33,12 @@
                     <h4 class="text-white text-capitalize">Content of Album</h4>
                     <div class="row p-0 mt-3">
                         @foreach($allMusicsOfAlbum as $music)
-                        <div class="card col-3 col-md-2 col-lg-1 bg-gray border-0 mb-2 text-white">
+                        <a class="card col-3 col-md-2 col-lg-1 bg-gray border-0 mb-2 text-white" href="{{route('index_music', $music->id)}}">
                             <img src="{{asset('storage/'.$music->photo)}}" class=" rounded" alt="...">
                             <div class="card-body p-0 mx-0 mt-1">
                                 <h6 class="m-0 fs-6">{{$music->name}}</h6>
                             </div>
-                        </div>
+                        </a>
                         @endforeach
                     </div>
                 </div>
@@ -46,13 +46,13 @@
                     <h4 class="text-white text-capitalize">Others albums of this band</h4>
                     <div class="row p-0 mt-3 mb-5">
                         @foreach($albumsOfBand as $album)
-                        <div class="card col-3 col-md-2 col-lg-1 bg-gray border-0 mb-2 text-white">
+                        <a class="card col-3 col-md-2 col-lg-1 bg-gray border-0 mb-2 text-white" href="{{route('index_album', $album->id)}}">
                             <img src="{{asset('storage/'.$album->photo)}}" class=" rounded" alt="...">
                             <div class="card-body p-0 mx-0 mt-1 w-100">
                                 <h6 class="m-0 fs-6">{{$album->name}}</h6>
                                 <span>{{(new \Carbon\Carbon($album->released_at))->year != -1 ? (new \Carbon\Carbon($album->released_at))->year : ""}}</span>
                             </div>
-                        </div>
+                        </a>
                         @endforeach
                     </div>
                 </div>

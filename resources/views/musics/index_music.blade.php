@@ -13,8 +13,11 @@
                     <div class="col-md-6">
                         <img src="{{asset('storage/'.$music->photo)}}" class="img-fluid rounded" alt="...">
                     </div>
-                    <div class="col-md-6 d-flex align-items-end">
-                        <div class="card-body text-white ">
+                    <div class="col-md-5 d-flex flex-column">
+                        <div class="container d-flex justify-content-end mt-3">
+                            <a href="{{route('edit_music', $music->id)}}" class="btn btn-warning w-25 rounded-pill">Edit</a>
+                        </div>
+                        <div class="card-body text-white d-flex flex-column justify-content-end py-0">
                             <h3 class="card-title fw-bold">{{$music->name}}</h3>
                             <h5 class="card-title">Band : Coldplay</h5>
                             <h5 class="card-title">Lenght : {{$music->length}} min </h5>
@@ -28,12 +31,13 @@
                     <h4 class="text-white">Some Musics of <span class="fw-bold">Coldplay</span></h4>
                     <div class="row p-0 mt-3">
                         @foreach($randomMusics as $music)
-                                <a class="card col-3 col-md-2 col-lg-1 bg-gray border-0 mb-2 text-white text-decoration-none" href="{{route('index_music', $music->id)}}">
-                                    <img src="{{asset('storage/'.$music->photo)}}" class=" rounded" alt="...">
-                                    <div class="card-body p-0 mx-0 mt-1">
-                                        <h6 class="m-0 fs-6">{{$music->name}}</h6>
-                                    </div>
-                                </a>
+                            <a class="card col-3 col-md-2 col-lg-1 bg-gray border-0 mb-2 text-white text-decoration-none"
+                               href="{{route('index_music', $music->id)}}">
+                                <img src="{{asset('storage/'.$music->photo)}}" class=" rounded" alt="...">
+                                <div class="card-body p-0 mx-0 mt-1">
+                                    <h6 class="m-0 fs-6">{{$music->name}}</h6>
+                                </div>
+                            </a>
                         @endforeach
                     </div>
                 </div>

@@ -19,11 +19,11 @@ class AlbumController extends Controller
         return view('musics.index_album', compact('randomBarMusics', 'album', 'allMusicsOfAlbum', 'albumsOfBand'));
     }
 
-    private function getAlbumDetails($idAlbum){
+    public function getAlbumDetails($idAlbum){
         $album = Album::where('id', $idAlbum)->first();
-        $album = Arr::add($album, 'genres_band',BandController::getGenresOfBand($album->band_id));
-        $album = Arr::Add($album, 'band_name', Band::where('id', $album->band_id)->first()->name);
-        $album = Arr::add($album, 'number_tracks', $this->getAllMusicsOfAlbum($idAlbum)->count());
+        Arr::add($album, 'genres_band',BandController::getGenresOfBand($album->band_id));
+        Arr::Add($album, 'band_name', Band::where('id', $album->band_id)->first()->name);
+        Arr::add($album, 'number_tracks', $this->getAllMusicsOfAlbum($idAlbum)->count());
         return $album;
     }
 
@@ -43,7 +43,8 @@ class AlbumController extends Controller
             $allBands = Band::get()->all();
             $bandExists = false;
         }
-        return view('musics.create_album', compact('bandExists', 'allBands'));
+        $randomBarMusics = IndexController::getRandomMusics();
+        return view('musics.create_album', compact('bandExists', 'allBands', 'randomBarMusics'));
     }
 
     public function storeAlbum(Request $request){

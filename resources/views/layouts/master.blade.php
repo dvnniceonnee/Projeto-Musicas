@@ -31,14 +31,15 @@
             </form>
             @if(Route::has('login'))
                 @auth
-                    <form action="{{ route('logout') }}" method="POST" class="mx-3">
-                        @csrf
-                        <button class="btn btn-danger w-100 text-white col-2 me-4" type="submit">Logout</button>
-                    </form>
-                    <a href="{{route('user_profile')}}">
-                    <img src="{{asset('storage/user/photos/profilePhoto.webp')}}"
+                    <a href="{{route('user_dashboard')}}"><button class="btn btn-warning me-2">Dashboard</button> </a>
+                    <a href="{{route('user_profile')}}"> <img src="{{asset('storage/user/photos/profilePhoto.webp')}}"
                          class="img-fluid navbar-brand rounded-circle" alt="" width="35" height="30">
                     </a>
+
+                    <form action="{{ route('logout') }}" method="POST" class="rounded-circle">
+                        @csrf
+                        <button class="btn btn-danger w-100 text-white col-2 rounded-circle px-2" type="submit"><i class="bi bi-box-arrow-left"></i></button>
+                    </form>
                 @else
                     <a class="text-white col-2 text-end text-decoration-none" href="{{route('login')}}"><i
                             class="bi bi-door-open"></i><span class="mx-2">Login</span></a>

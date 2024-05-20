@@ -28,17 +28,17 @@
                                             Album Inválido!
                                         </div>
                                         @enderror
-                                        <h5 class="text-white">Choose the Album to Add the Music</h5>
-                                        <div class="container-fluid p-0">
+                                        <h5 class="text-white">Choose the Album of the Music</h5>
+                                        <div class="container-fluid p-0 ">
                                             @foreach($albums as $album)
-                                                <input type="radio" class="btn-check" name="album_id"
+                                                <input type="radio" class="btn-check " name="album_id"
                                                        id="option{{$album->id}}"
                                                        autocomplete="off" value="{{$album->id}}">
                                                 <label class="btn col-5 col-md-3" for="option{{$album->id}}"
                                                        id="labeloption{{$album->id}}"
-                                                       onclick="checkBand(this)">
+                                                       onclick="checkAlbum(this)">
                                                     <div class="card w-100 bg-transparent border-0 mb-2 text-white">
-                                                        <img src="{{asset('files/img/musicCover1.png')}}"
+                                                        <img src="{{asset('storage/'.$album->photo)}}"
                                                              class="rounded"
                                                              alt="...">
                                                         <div class="card-body p-0 mx-0 mt-1">

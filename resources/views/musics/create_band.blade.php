@@ -5,7 +5,7 @@
             <div class="mb-3 mt-4 mx-2 bg-gray border-0 mx-auto" style="max-width: 750px;">
                 <div class="row col-md-6 mx-auto">
                     <div class="">
-                        <form class="text-white" action="{{route('store_band')}}" method="POST">
+                        <form class="text-white" action="{{route('store_band')}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="position-relative">
                                 <img src="{{asset('files/img/musicCoverDefault.png')}}" id="imageExample"
@@ -14,7 +14,7 @@
                                         type="button">
                                     <label class="bi bi-folder-plus fs-4 d-inline-block m-auto text-white"
                                            for="inputFile">
-                                        <input type="file" accept="image/*" name="band_image" hidden id="inputFile"
+                                        <input type="file" accept="image/*" name="photo" hidden id="inputFile"
                                                class="is-invalid"
                                                onchange="document.getElementById('imageExample').src = window.URL.createObjectURL(this.files[0])">
                                     </label>
@@ -28,7 +28,7 @@
                             @enderror
                             <div class="mb-3">
                                 <label for="inputName_band" class="form-label">Nome da Banda</label>
-                                <input name="band_name" type="text" class="form-control" id="inputName_band"
+                                <input name="band_name" type="text" class="form-control" value="{{old('band_name')}}" id="inputName_band"
                                        aria-describedby="emailHelp" placeholder="Band">
                             </div>
                             @error('band_name')
@@ -36,7 +36,7 @@
                             @enderror
                             <div class="mb-3">
                                 <label for="inputBand_foundedAt" class="form-label">Band Founded At</label>
-                                <input name="band_released_at" type="date" class="form-control" id="inputBand_foundedAt"
+                                <input name="band_released_at" type="date" class="form-control" value="{{old('band_released_at')}}" id="inputBand_foundedAt"
                                        aria-describedby="emailHelp">
                             </div>
                             @error('band_released_at')

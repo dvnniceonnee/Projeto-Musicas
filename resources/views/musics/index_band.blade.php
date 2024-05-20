@@ -28,13 +28,13 @@
                     <h4 class="text-white text-capitalize">Albums</h4>
                     <div class="row p-0 mt-3">
                         @foreach($allAlbumsOfBand as $album)
-                        <div class="card col-3 col-md-2 col-lg-1 bg-gray border-0 mb-2 text-white">
+                        <a class="card col-3 col-md-2 col-lg-1 bg-gray border-0 mb-2 text-white" href="{{route('index_album', $album->id)}}">
                             <img src="{{asset('storage/'.$album->photo)}}" class=" rounded" alt="...">
                             <div class="card-body p-0 mx-0 mt-1">
                                 <h6 class="m-0 fs-6">{{$album->name}}</h6>
                                 <span>{{ (new \Carbon\Carbon($album->released_at))->year != -1 ? (new \Carbon\Carbon($album->released_at))->year : ""}}</span>
                             </div>
-                        </div>
+                        </a>
                         @endforeach
                     </div>
                 </div>
