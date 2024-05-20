@@ -18,7 +18,6 @@ class DashboardController extends Controller
         $allMusics = $this->getAllMusics();
         return view('user.dashboard_admin', compact('allBands', 'allAlbums', 'allMusics'));
     }
-
     private function getAllMusics(){
         $allMusics = Music::get();
         foreach ($allMusics as $music){
@@ -26,7 +25,6 @@ class DashboardController extends Controller
         }
         return $allMusics;
     }
-
     private function getAllAlbums(){
         $allAlbums = Album::get();
         $albumController = new AlbumController();
@@ -40,7 +38,7 @@ class DashboardController extends Controller
     private function getAllBands(){
         $allBands = Band::get();
         foreach ($allBands as $band) {
-            $pais = DB::table('paises')->where('id', $band->pais_id)->first();
+            $pais = DB::table('countries')->where('id', $band->country_id)->first();
             Arr::add($band, 'founded_in', $pais->name);
         }
         return $allBands;

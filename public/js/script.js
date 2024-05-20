@@ -10,7 +10,6 @@
  }
  }
  */
-
 function addGenreToList() {
     const selectOptions = document.getElementById('selectInput').selectedOptions
     console.log(selectOptions)

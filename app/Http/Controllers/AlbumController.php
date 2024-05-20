@@ -21,9 +21,9 @@ class AlbumController extends Controller
 
     public function getAlbumDetails($idAlbum){
         $album = Album::where('id', $idAlbum)->first();
-        Arr::add($album, 'genres_band',BandController::getGenresOfBand($album->band_id));
-        Arr::Add($album, 'band_name', Band::where('id', $album->band_id)->first()->name);
-        Arr::add($album, 'number_tracks', $this->getAllMusicsOfAlbum($idAlbum)->count());
+        $album->genres_band = BandController::getGenresOfBand($album->band_id);
+        $album->band_name = Band::where('id', $album->band_id)->first()->name;
+        $album->number_trancks = $this->getAllMusicsOfAlbum($idAlbum)->count();
         return $album;
     }
 

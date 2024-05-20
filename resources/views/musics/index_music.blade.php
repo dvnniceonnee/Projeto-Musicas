@@ -15,12 +15,12 @@
                     </div>
                     <div class="col-md-5 d-flex flex-column">
                         <div class="container d-flex justify-content-end mt-3">
-                            <a href="{{route('edit_music', $music->id)}}" class="btn btn-warning w-25 rounded-pill">Edit</a>
+                            <a href="{{route('edit_music_view', $music->id)}}" class="btn btn-warning w-25 rounded-pill">Edit</a>
                         </div>
                         <div class="card-body text-white d-flex flex-column justify-content-end py-0">
                             <h3 class="card-title fw-bold">{{$music->name}}</h3>
                             <h5 class="card-title">Band : Coldplay</h5>
-                            <h5 class="card-title">Lenght : {{$music->length}} min </h5>
+                            <h5 class="card-title">Length : {{$music->length}} min </h5>
                             <h5 class="card-title">Album : {{$music->album_name}}</h5>
                         </div>
                     </div>

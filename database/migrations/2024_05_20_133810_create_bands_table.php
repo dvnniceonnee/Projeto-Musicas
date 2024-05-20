@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('photo')->default('music/musicCoverDefault.png');
             $table->date('founded_at')->nullable();
-            $table->unsignedBigInteger('pais_id');
-            $table->foreign('pais_id')->references('id')->on('paises')->onDelete('cascade');
+            $table->unsignedBigInteger('country_id');
+            $table->foreign('country_id')->references('id')->on('countries');
         });
     }
 

@@ -32,7 +32,7 @@ class BandController extends Controller
     }
     private function getDetailsBand($id){
         $band = Band::where('id', $id)->get()->first();
-        $countryBand = DB::table('paises')->where('id', $band->pais_id)->first()->name;
+        $countryBand = DB::table('countries')->where('id', $band->country_id)->first()->name;
         $band = Arr::add($band, 'band_country', $countryBand);
         $band = Arr::add($band, 'band_genres', $this->getGenresOfBand($id));
         return $band;
@@ -51,8 +51,9 @@ class BandController extends Controller
         }
         return $genres;
     }
+
     public function createBandView(){
-        $paises = DB::table("paises")->get()->all();
+        $paises = DB::table("countries")->get()->all();
         $randomBarMusics = IndexController::getRandomMusics();
         $genres = Genero::get()->all();
         return view('musics.create_band', compact('paises', 'genres', 'randomBarMusics'));
@@ -61,7 +62,7 @@ class BandController extends Controller
         $request->validate([
             'band_name' => 'required|unique:bands,name',
             'band_released_at' => 'date|nullable',
-            'country_band' => 'exists:paises,id',
+            'country_band' => 'exists:countries,id',
             'inputGenres' => 'present|array',
             'inputGenres.*'=> 'exists:generos,id',
             'photo'=> 'max:10000',
@@ -72,7 +73,7 @@ class BandController extends Controller
                 'name'=>$request->band_name,
                 'founded_at'=>$request->band_released_at,
                 'photo'=> $photo,
-                'pais_id'=>$request->country_band,
+                'country_id'=>$request->country_band,
             ]);
 
         }
@@ -81,7 +82,7 @@ class BandController extends Controller
                 'name'=>$request->band_name,
                 'founded_at'=>$request->band_released_at,
                 'photo'=> 'music/musicCoverDefault.png',
-                'pais_id'=>$request->country_band,
+                'country_id'=>$request->country_band,
             ]);
         }
 
@@ -91,6 +92,24 @@ class BandController extends Controller
                 'genero_id' => $genre
             ]);
         }
+        return redirect()->route('user_dashboard');
+    }
+
+    public function editband(Request $request){
+        $request->validate([
+            'inputBandName' => 'unique:bands,name|string|max:255',
+            'inputBandReleasedAt' => 'date',
+        ])
+    }
+
+    public function editBandView($bandId){
+        $randomBarMusics = IndexController::getRandomMusics();
+        $band =  Band::where('id', $bandId)->get()->first();
+        return view('musics.edit_band', compact('band', 'randomBarMusics'));
+
+    }
+    public function deleteBand($bandId){
+        Band::where('id', $bandId)->delete();
         return redirect()->route('user_dashboard');
     }
 }

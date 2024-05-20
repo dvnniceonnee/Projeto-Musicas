@@ -28,8 +28,7 @@ class MusicController extends Controller
         $musics[] = [];
     }
 
-    private function getMusic($idmusic)
-    {
+    private function getMusic($idmusic){
         $music = Music::where('id', $idmusic)->first();
         Arr::add($music, 'band_name', Band::where('id', $music->band_id)->first()->name);
         Arr::add($music, 'album_name', Album::where('id', $music->album_id)->first()->name);
