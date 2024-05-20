@@ -96,10 +96,36 @@ class BandController extends Controller
     }
 
     public function editband(Request $request){
-        $request->validate([
-            'inputBandName' => 'unique:bands,name|string|max:255',
-            'inputBandReleasedAt' => 'date',
-        ])
+        $band = Band::where('id', $request->id)->first();
+        if($request->band_name == $band->name){
+            $request->validate([
+            'band_founded_at' => 'date|nullable',
+            'band_image' => 'image'
+            ]);
+        }
+        else{
+            $request->validate([
+                'band_name'=> 'string|unique:bands,name',
+                'band_founded_at' => 'date',
+                'band_image' => 'image'
+            ]);
+        }
+        $photo = null;
+        if($request->hasFile('band_image')) {
+            $photo = Storage::putFile("bands/", $request->band_image);
+            Band::where('id', $request->id)->update([
+                'name'=> $request->band_name,
+                'founded_at'=> $request->founded_at,
+                'photo'=>$photo
+            ]);
+        }else{
+            Band::where('id', $request->id)->update([
+                'name'=> $request->band_name,
+                'founded_at'=> $request->founded_at
+            ]);
+        }
+        return redirect()->back()->with('message', 'Band Atualizada com sucesso!');
+
     }
 
     public function editBandView($bandId){

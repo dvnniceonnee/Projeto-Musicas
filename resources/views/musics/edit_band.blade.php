@@ -2,6 +2,7 @@
 @section('contentPage')
     <div class="container-fluid d-flex col-12 col-md-10 me-0 ps-1 pe-0">
         <div class="container-fluid ps-2 bg-gray rounded-3 ">
+
             <div class="d-flex">
                 <button class="btn mx-0 p-1"><i class="bi bi-arrow-left-circle-fill fs-2 text-secundary"></i>
                 </button>
@@ -33,6 +34,11 @@
             </div>
 
             <div class="card mb-3 mt-4 mx-2 bg-gray border-0" style="max-width: 750px;">
+                @if(session('message'))
+                    <div class="alert alert-success text-center d-inline mx-auto" role="alert">
+                        Musica Atualizada com sucesso!
+                    </div>
+                @endif
                 <form action="{{route('edit_band')}}" method="POST" enctype="multipart/form-data" class="row">
                     @csrf
                     <div class="col-md-6 position-relative mx-auto w-50">
@@ -58,9 +64,9 @@
                             <input type="text" name="id" value="{{$band->id}}" hidden>
                             <label for="inputBandName">Nome da Banda</label>
                             <input type="text" class="form-control text-dark mb-3 d-inline fs-5" id="inputBandName"
-                                   placeholder="{{$band->name}}" name="music_name">
+                                   placeholder="{{$band->name}}" value="{{$band->name}}" name="band_name">
                             <input type="date" class="form-control text-dark mb-3 d-inline fs-5" id="inputBandName"
-                                   value="{{$band->founded_at}}" name="music_released_at">
+                                   value="{{$band->founded_at}}" name="band_founded_at">
                         </div>
                     </div>
                 </form>

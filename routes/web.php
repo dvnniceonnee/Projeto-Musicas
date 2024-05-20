@@ -10,13 +10,11 @@ use App\Models\Music;
 use Illuminate\Support\Facades\Route;
 
 
-
-
 // Bands
 Route::get('/band/create', [BandController::class, 'createBandView'])->name('create_band');
 Route::post('/band/create', [BandController::class, 'storeBand'])->name('store_band');
 Route::Get('/band/edit/{id}', [BandController::class, 'editBandView'])->name('edit_band_view');
-Route::Post('/band/edit', [BandController::class, 'viewBand'])->name('edit_band');
+Route::Post('/band/edit', [BandController::class, 'editBand'])->name('edit_band');
 Route::get('/band/delete/{id}', [BandController::class, 'viewBand'])->name('delete_band');
 Route::Get('/band/{id}', [BandController::class, 'viewBand'])->name('index_band');
 
