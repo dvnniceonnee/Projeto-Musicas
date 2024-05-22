@@ -16,7 +16,7 @@ class AlbumController extends Controller
         $randomBarMusics = IndexController::getRandomMusics();
         $allMusicsOfAlbum = $this->getAllMusicsOfAlbum($idAlbum);
         $albumsOfBand = BandController::getAlbumsOfBand($album->band_id);
-        return view('musics.index_album', compact('randomBarMusics', 'album', 'allMusicsOfAlbum', 'albumsOfBand'));
+        return view('pages.albums.index_album', compact('randomBarMusics', 'album', 'allMusicsOfAlbum', 'albumsOfBand'));
     }
 
     public function getAlbumDetails($idAlbum){
@@ -44,7 +44,7 @@ class AlbumController extends Controller
             $bandExists = false;
         }
         $randomBarMusics = IndexController::getRandomMusics();
-        return view('musics.create_album', compact('bandExists', 'allBands', 'randomBarMusics'));
+        return view('pages.albums.create_album', compact('bandExists', 'allBands', 'randomBarMusics'));
     }
 
     public function storeAlbum(Request $request){
@@ -59,21 +59,20 @@ class AlbumController extends Controller
         if($request->hasFile('album_image')) {
             $photo = Storage::putFile("albums/", $request->album_image);
         }
-        $newMusic = Album::insert([
+        $newAlbum = Album::insertgetId([
             'name'=>$request->album_name,
             'photo'=> $photo ? $photo : 'music/musicCoverDefault.png',
             'band_id'=>$request->band_id,
             'released_at'=>$request->released_at
         ]);
-
-        return redirect()->back();
+        return redirect()->route('user_dashboard')->with('message', 'Album '.$request->album_name.' criado com sucesso!');
     }
 
     public function editAlbumView($albumId){
         $album = Album::where('id', $albumId)->first();
         if($album){
             $randomBarMusics = IndexController::getRandomMusics();
-            return view('musics.edit_album', compact('album', 'randomBarMusics'));
+            return view('pages.albums.edit_album', compact('album', 'randomBarMusics'));
         }
         else{
             return redirect()->route('route_home');
@@ -110,5 +109,11 @@ class AlbumController extends Controller
         ]);
 
         return redirect()->back()->with('message', 'Album atualizado com sucesso!');
+    }
+
+    public function deleteAlbum($albumId){
+        Music::where('album_id', $albumId)->delete();
+        Album::where('id', $albumId)->delete();
+        return redirect()->route('user_dashboard')->with('message', 'Album Apagado com sucesso!');
     }
 }

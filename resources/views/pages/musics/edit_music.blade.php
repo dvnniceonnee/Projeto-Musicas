@@ -1,7 +1,7 @@
 @extends('layouts.musicBar')
 @section('contentPage')
-    <div class="container-fluid d-flex col-12 col-md-10 me-0 ps-1 pe-0">
-        <div class="container-fluid ps-2 bg-gray rounded-3 ">
+    <div class="container-fluid d-flex col-12 col-md-10 me-0 ps-0 pe-0">
+        <div class="container-fluid ps-2 bg-gray rounded-3 vh-100">
             <div class="d-flex">
                 <button class="btn mx-0 p-1"><i class="bi bi-arrow-left-circle-fill fs-2 text-secundary"></i>
                 </button>

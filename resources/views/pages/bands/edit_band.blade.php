@@ -39,6 +39,7 @@
                         {{ session('message')}}
                     </div>
                 @endif
+
                 <form action="{{route('edit_band')}}" method="POST" enctype="multipart/form-data" class="row">
                     @csrf
                     <div class="col-md-6 position-relative mx-auto w-50">
@@ -47,6 +48,7 @@
                             Image file Invalid!
                         </div>
                         @enderror
+                        <h2 class="text-white">Banda</h2>
                         <img src="{{asset('storage/'.$band->photo)}}" id="imageBand"
                              class="img-fluid rounded" alt="...">
                         <button type="button"
@@ -68,9 +70,13 @@
                         <div class="card-body text-white d-flex flex-column justify-content-end">
                             <input type="text" name="id" value="{{$band->id}}" hidden>
                             <label for="inputBandName">Nome da Banda</label>
-                            <input type="text" class="form-control text-dark mb-3 d-inline fs-5 @error('band_name') is-invalid @enderror" id="inputBandName"
+                            <input type="text"
+                                   class="form-control text-dark mb-3 d-inline fs-5 @error('band_name') is-invalid @enderror"
+                                   id="inputBandName"
                                    placeholder="{{$band->name}}" value="{{$band->name}}" name="band_name">
-                            <input type="date" class="form-control text-dark mb-3 d-inline fs-5 @error('band_founded_at') is-invalid @enderror" id="inputBand_founded_at"
+                            <input type="date"
+                                   class="form-control text-dark mb-3 d-inline fs-5 @error('band_founded_at') is-invalid @enderror"
+                                   id="inputBand_founded_at"
                                    value="{{$band->founded_at}}" name="band_founded_at">
                             <div class="mb-2 d-flex flex-column">
                                 <label for="inputBand_genres" class="form-label">Country of the Band</label>
@@ -94,6 +100,44 @@
                         </div>
                     </div>
                 </form>
+                <div class="d-flex flex-column mt-5">
+                    <div class="container-fluid ">
+                        <div class="d-flex flex-row ">
+                        <h4 class="text-white text-capitalize my-auto">Albums</h4>
+                        <a class="mx-2 text-success mb-2 p-0" href="{{route('create_album', $band->id)}}">Add<i class="bi bi-plus-lg"></i></a>
+                        </div>
+                        <div class="row p-0 mt-3">
+                            @foreach($allAlbumsOfBand as $album)
+                                <a class="card col-3 col-md-2 col-lg-2 bg-gray border-0 mb-2 text-white"
+                                   href="{{route('index_album', $album->id)}}">
+                                    <img src="{{asset('storage/'.$album->photo)}}" class=" rounded" alt="...">
+                                    <div class="card-body p-0 mx-0 mt-1">
+                                        <h6 class="m-0 fs-6">{{$album->name}}</h6>
+                                        <span>{{ (new \Carbon\Carbon($album->released_at))->year != -1 ? (new \Carbon\Carbon($album->released_at))->year : ""}}</span>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="container-fluid ">
+                        <div class="d-flex flex-row ">
+                            <h4 class="text-white text-capitalize my-auto">Musics</h4>
+                            <a class="mx-2 text-success mb-2 p-0" href="{{route('create_music',[ 1, 11])}}">Add<i class="bi bi-plus-lg"></i></a>
+                        </div>
+                        <div class="row p-0 mt-3 mb-5">
+                            @foreach($allMusicsOfBand as $music)
+                                <a class="card col-3 col-md-2 col-lg-2 bg-gray border-0 mb-2 text-white"
+                                   href="{{route('index_music', $music->id)}}">
+                                    <img src="{{asset('storage/'.$music->photo)}}" class=" rounded" alt="...">
+                                    <div class="card-body p-0 mx-0 mt-1 w-100">
+                                        <h6 class="m-0 fs-6">{{$music->name}}</h6>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                        {{$allMusicsOfBand->links()}}
+                    </div>
+                </div>
             </div>
         </div>
 @endsection

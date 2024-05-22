@@ -11,13 +11,13 @@
                                 </button>
                             </a>
                         </div>
-                        <div class="col-12 col-md-12 col-lg-6 col-xl-8">
+                        <div class="col-12 col-md-12 col-lg-12 col-xl-8">
                             <a href="{{route('route_Page', 'bands')}}">
                                 <button type="button" class="btn btn-secondary rounded-pill mb-2 col-12 p-0 py-1">All Bands
                                 </button>
                             </a>
                         </div>
-                        <div class="col-12 col-md-12 col-lg-6 col-xl-8">
+                        <div class="col-12 col-md-12 col-lg-12 col-xl-8">
                             <a href="{{route('route_Page', 'albums')}}">
                                 <button type="button" class="btn btn-secondary rounded-pill mb-2 col-12 p-0 py-1">All Albuns
                                 </button>

@@ -17,48 +17,14 @@
                 <div class="container-fluid">
                     <h4 class="text-white">Mix's</h4>
                     <div class="row p-0 mt-3">
+                        @foreach($mixes as $mix)
                         <div class="card col-6 col-md-3 col-lg-2 bg-gray border-0 mb-2 text-white">
-                            <img src="{{asset("files/img/musicCover1.png")}}" class="w-100 rounded" alt="...">
+                            <img src="{{asset("storage/". $mix->photo)}}" class="w-100 rounded" alt="...">
                             <div class="card-body p-0 mx-0 mt-1">
-                                <h5 class="m-0">Mix Rock</h5>
-                                <span>Band 1, Band 2, Band 3</span>
+                                <h5 class="m-0">Mix {{$mix->name}}</h5>
                             </div>
                         </div>
-                        <div class="card col-6 col-md-3 col-lg-2 bg-gray border-0 mb-2 text-white">
-                            <img src="{{asset("files/img/musicCover2.png")}}" class="w-100 rounded" alt="...">
-                            <div class="card-body p-0 mx-0 mt-1">
-                                <h5 class="m-0">Mix Rock</h5>
-                                <span>Band 1, Band 2, Band 3</span>
-                            </div>
-                        </div>
-                        <div class="card col-6 col-md-3 col-lg-2 bg-gray border-0 mb-2 text-white">
-                            <img src="{{asset("files/img/musicCover3.jpg")}}" class="w-100 rounded" alt="...">
-                            <div class="card-body p-0 mx-0 mt-1">
-                                <h5 class="m-0">Mix Rock</h5>
-                                <span>Band 1, Band 2, Band 3</span>
-                            </div>
-                        </div>
-                        <div class="card col-6 col-md-3 col-lg-2 bg-gray border-0 mb-2 text-white">
-                            <img src="{{asset("files/img/musicCover4.png")}}" class="w-100 rounded" alt="...">
-                            <div class="card-body p-0 mx-0 mt-1">
-                                <h5 class="m-0">Mix Rock</h5>
-                                <span>Band 1, Band 2, Band 3</span>
-                            </div>
-                        </div>
-                        <div class="card col-6 col-md-3 col-lg-2 bg-gray border-0 mb-2 text-white">
-                            <img src="{{asset("files/img/musicCover5.png")}}" class="w-100 rounded" alt="...">
-                            <div class="card-body p-0 mx-0 mt-1">
-                                <h5 class="m-0">Mix Rock</h5>
-                                <span>Band 1, Band 2, Band 3</span>
-                            </div>
-                        </div>
-                        <div class="card col-6 col-md-3 col-lg-2 bg-gray border-0 text-white">
-                            <img src="{{asset("files/img/musicCover1.png")}}" class="w-100 rounded" alt="...">
-                            <div class="card-body p-0 mx-0 mt-1">
-                                <h5 class="m-0">Mix Rock</h5>
-                                <span>Band 1, Band 2, Band 3</span>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

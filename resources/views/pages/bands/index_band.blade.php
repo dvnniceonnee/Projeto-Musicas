@@ -10,17 +10,17 @@
             </div>
             <div class="card mb-3 mt-4 mx-2 bg-gray border-0" style="max-width: 750px;">
                 <div class="row g-0">
-                    <div class="col-md-6">
+                    <div class="col-md-6 d-flex ">
                         <img src="{{asset('storage/'.$band->photo)}}" class="img-fluid rounded" alt="...">
                     </div>
                     <div class="col-md-6 d-flex flex-column">
-                        <div class="container d-flex justify-content-end mt-3">
-                            <a href="{{route('edit_band_view', $band->id)}}" class="btn btn-warning w-25 rounded-pill">Edit</a>
+                        <div class="container d-flex justify-content-end">
+                            <a href="{{route('edit_band_view', $band->id)}}" class="btn btn-warning rounded-pill">Edit</a>
                         </div>
-                        <div class="card-body text-white d-flex flex-column justify-content-end">
+                        <div class="card-body text-white d-flex flex-column justify-content-end mt-5">
                             <h3 class="card-title fw-bold">{{$band->name}}</h3>
-                            <h6 class="card-title">Founded : {{$band->founded_at != null ? $band->founded_at : "Não definido" }} </h6>
-                            <h6 class="card-title">Founden in : {{$band->country_band != null ? $band->country_band : "Não Definido"}}</h6>
+                            <h6 class="card-title">Founded at: {{$band->founded_at != null ? $band->founded_at : "Não definido" }} </h6>
+                            <h6 class="card-title">Founden in : {{$band->band_country != null ? $band->band_country : "Não Definido"}}</h6>
                             <h6>Genres : @foreach($band->band_genres as $genre) {{$genre['genre_name']}}, @endforeach</h6>
                         </div>
                     </div>

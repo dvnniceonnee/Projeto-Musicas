@@ -7,7 +7,6 @@
                     <div class="">
                         <form action="{{route('store_music')}}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            <input type="text" name="band_id" hidden value="1">
                             <div class="position-relative mx-auto w-50">
                                 <img src="{{asset('files/img/musicCoverDefault.png')}}" id="imageExample"
                                      class="img-fluid rounded" alt="...">
@@ -23,7 +22,7 @@
                             <div class="container mt-4">
                                 <div class="d-flex flex.row">
                                     <div class="col-6 col-md-12 col-lg-9 col-xl-6">
-                                        @error('band_id')
+                                        @error('album_id')
                                         <div class="alert alert-danger p-1 text-center mx-4" role="alert">
                                             Album Inválido!
                                         </div>
@@ -55,7 +54,8 @@
                                             <input name="music_name" type="text"
                                                    class="form-control @error('music_name') is-invalid @enderror"
                                                    id="inputName_band"
-                                                   aria-describedby="emailHelp" value="{{ old('music_name') }}" placeholder="Musica">
+                                                   aria-describedby="emailHelp" value="{{ old('music_name') }}"
+                                                   placeholder="Musica">
                                         </div>
                                         <div class="mb-3">
                                             <label for="inputMusic_length" class="form-label">Lenght of the Music
@@ -63,7 +63,8 @@
                                             <input name="music_length" type="text"
                                                    class="form-control @error('music_length') is-invalid @enderror"
                                                    id="inputMusic_length"
-                                                   aria-describedby="emailHelp" value="{{ old('music_length') }}" placeholder="10.20 (min.seg)">
+                                                   aria-describedby="emailHelp" value="{{ old('music_length') }}"
+                                                   placeholder="10.20 (min.seg)">
                                         </div>
                                         <button type="submit" class="btn btn-primary w-100 mt-3">Criar Musica</button>
                                     </div>

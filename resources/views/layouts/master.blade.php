@@ -31,46 +31,41 @@
             </form>
             @if(Route::has('login'))
                 @auth
-                    {{--                    <a href="{{route('user_dashboard')}}">--}}
-                    {{--                        <button class="btn btn-warning me-2">Dashboard</button>--}}
-                    {{--                    </a>--}}
-                    {{--                    <a href="{{route('user_profile')}}"> <img src="{{asset('storage/user/photos/profilePhoto.webp')}}"--}}
-                    {{--                                                              class="img-fluid navbar-brand rounded-circle" alt=""--}}
-                    {{--                                                              width="35" height="30">--}}
-                    {{--                    </a>--}}
+                    <div class="nav-item dropdown">
+                        <a data-bs-toggle="dropdown" aria-expanded="true" href="" >
+                            <img src="{{asset('storage/'.Auth::user()->photo)}}"
+                                 class="img-fluid navbar-brand rounded-circle" alt="" width="35" height="30">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end p-2">
+                            <li class="my-1">
+                                <a class="dropdown-item text-center p-0" href="{{route('user_profile')}}">
+                                    <button class="btn btn-secondary text-white w-100 rounded-pill" type="submit">
+                                        <span class="mx-2">Profile</span><i class="bi bi-person-square"></i></button>
+                                </a>
+                            </li>
+                            @if(Auth::user()->type == \App\Models\User::Type_Admin)
+                                <li class="my-1">
+                                    <a class="dropdown-item text-center p-0" href="{{route('user_dashboard')}}">
+                                        <button class="btn btn-secondary text-white w-100 rounded-pill" type="submit">
+                                            <span class="mx-2">Dashboard</span><i class="bi bi-list"></i></button>
 
-                    {{--                    <form action="{{ route('logout') }}" method="POST" class="rounded-circle">--}}
-                    {{--                        @csrf--}}
-                    {{--                        <button class="btn btn-danger w-100 text-white col-2 rounded-circle px-2" type="submit"><i--}}
-                    {{--                                class="bi bi-box-arrow-left"></i></button>--}}
-                    {{--                    </form>--}}
+                                    </a>
+                                </li>
+                            @endif
+                            <li class="my-1">
+                                <form class="dropdown-item text-center p-0" action="{{ route('logout') }}" method="POST" >
+                                    @csrf
+                                    <button class="btn btn-danger text-white w-100 rounded-pill" type="submit"><span class="mx-2">Logout</span><i class="bi bi-box-arrow-left"></i></button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
                 @else
                     <a class="text-white col-2 text-end text-decoration-none" href="{{route('login')}}"><i
                             class="bi bi-door-open"></i><span class="mx-2">Login</span></a>
                 @endauth
             @endif
-            <div>
-                <a href="{{route('user_profile')}}" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="{{asset('storage/user/photos/profilePhoto.webp')}}"
-                         class="img-fluid navbar-brand rounded-circle" alt="" width="35" height="30">
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item text-center" href="{{route('user_dashboard')}}">
-                            Profile
-                        </a>
-                    </li>
-                    <li><a class="dropdown-item text-center" href="{{route('user_dashboard')}}">
-                            Dashboard
-                        </a>
-                    </li>
-                    <li class="text-center">
-                        <form action="{{ route('logout') }}" method="POST" class="rounded-circle">
-                            @csrf
-                            <button class="btn btn-danger text-white mx-2 " type="submit">Logout</button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
+
         </div>
     </nav>
 </header>
@@ -81,7 +76,7 @@
     <div class="container-fluid mt-0 bg-gray rounded-2 text-white p-2">
         <ul class="nav justify-content-center border-bottom w-50 mx-auto pb-3 mb-3">
             <li class="nav-item"><a href="{{route('route_home')}}" class="nav-link px-2 text-white">Home</a></li>
-            <li class="nav-item"><a href="{{route('route_Page', 'musics')}}" class="nav-link px-2">Musics</a></li>
+            <li class="nav-item"><a href="{{route('route_Page', 'pages')}}" class="nav-link px-2">Musics</a></li>
             <li class="nav-item"><a href="{{route('route_Page', 'albums')}}" class="nav-link px-2">Albums</a></li>
             <li class="nav-item"><a href="{{route('route_Page', 'bands')}}" class="nav-link px-2">Bands</a></li>
             <li class="nav-item"><a href="{{route('register')}}" class="nav-link px-2">Register</a></li>

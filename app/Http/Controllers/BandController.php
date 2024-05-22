@@ -24,7 +24,7 @@ class BandController extends Controller
                     return $value['band_id'] == $id;
                 });*/
         $allMusicsOfBand = Music::where('band_id', $idBand)->paginate(10);
-        return view('musics.index_band', compact('band', 'allAlbumsOfBand', 'allMusicsOfBand', 'randomBarMusics'));
+        return view('pages.bands.index_band', compact('band', 'allAlbumsOfBand', 'allMusicsOfBand', 'randomBarMusics'));
     }
 
     public static function getAlbumsOfBand($idBand)
@@ -35,7 +35,7 @@ class BandController extends Controller
 
     private function getDetailsBand($id)
     {
-        $band = Band::where('id', $id)->get()->first();
+        $band = Band::where('id', $id)->first();
         $countryBand = DB::table('countries')->where('id', $band->country_id)->first()->name;
         $band = Arr::add($band, 'band_country', $countryBand);
         $band = Arr::add($band, 'band_genres', $this->getGenresOfBand($id));
@@ -62,7 +62,7 @@ class BandController extends Controller
         $paises = DB::table("countries")->get()->all();
         $randomBarMusics = IndexController::getRandomMusics();
         $genres = Genero::get()->all();
-        return view('musics.create_band', compact('paises', 'genres', 'randomBarMusics'));
+        return view('pages.bands.create_band', compact('paises', 'genres', 'randomBarMusics'));
     }
 
     public function storeBand(Request $request)
@@ -88,7 +88,7 @@ class BandController extends Controller
             $newBand = Band::insertGetId([
                 'name' => $request->band_name,
                 'founded_at' => $request->band_released_at,
-                'photo' => 'music/musicCoverDefault.png',
+                'photo' => 'musicCoverDefault.png',
                 'country_id' => $request->country_band,
             ]);
         }
@@ -121,7 +121,10 @@ class BandController extends Controller
         }
         $photo = null;
         if ($request->hasFile('band_image')) {
-            Storage::delete($band->photo);
+            if($band->photo != 'musicCoverDefault.png')
+            {
+                Storage::delete($band->photo);
+            }
             $photo = Storage::putFile("bands/", $request->band_image);
         }
         Band::where('id', $request->id)->update([
@@ -139,8 +142,9 @@ class BandController extends Controller
         $countries = DB::table("countries")->get()->all();
         $randomBarMusics = IndexController::getRandomMusics();
         $band = Band::where('id', $bandId)->get()->first();
-        return view('musics.edit_band', compact('band', 'randomBarMusics', 'countries'));
-
+        $allAlbumsOfBand = $this->getAlbumsOfBand($bandId);
+        $allMusicsOfBand = Music::where('band_id', $bandId)->paginate(10);
+        return view('pages.bands.edit_band', compact('band', 'randomBarMusics', 'countries', 'allMusicsOfBand', 'allAlbumsOfBand'));
     }
 
     public function deleteBand($bandId)

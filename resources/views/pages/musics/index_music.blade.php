@@ -10,8 +10,9 @@
             </div>
             <div class="card mb-3 mt-4 mx-2 bg-gray border-0" style="max-width: 750px;">
                 <div class="row g-0">
-                    <div class="col-md-6">
+                    <div class="col-md-6 position-relative">
                         <img src="{{asset('storage/'.$music->photo)}}" class="img-fluid rounded" alt="...">
+                        <a class="position-absolute top-0 end-0 me-2 text-warning" href="{{route('add_favourites_music', $music->id)}}"><i class="bi @if($music->favourite_user == true)bi-star-fill @else bi-star @endif fs-2"></i></a>
                     </div>
                     <div class="col-md-5 d-flex flex-column">
                         <div class="container d-flex justify-content-end mt-3">
