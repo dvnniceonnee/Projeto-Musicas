@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="d-flex container-fluid col-12 my-3 h-25 position-relative">
-                <img src='{{$imgLink}}' class="w-100 object-fit-cover rounded " alt="">
+                <img src='{{$imgLink}}' class="w-100 object-fit-cover rounded" alt="">
                 <div class="container text-white ms-5 position-absolute top-50 start-0 translate-middle-y">
                     <h1 class="fs-1"> Check out your favourite <span class="text-capitalize">{{$title}}!</span></h1>
                     <h2>Find your favourite {{$title}}!</h2>
@@ -21,7 +21,7 @@
                     <div class="row p-0 mt-3">
                         @foreach($items as $item)
                             @if($title == "band")
-                                <a class="card col-3 col-md-2 col-lg-2 col-xl-1 bg-gray border-0 mb-2 text-white"
+                                <a class="card col-3 col-md-2 col-lg-2 col-xl-1 bg-gray border-0 mb-2 text-white text-decoration-none"
                                    href="{{route('index_band', $item->id)}}">
                                     <img src="{{asset('storage/'.$item->photo)}}" class="w-100 rounded" alt="...">
                                     <div class="card-body p-0 mx-0 mt-1 fs-6 text-center">
@@ -29,11 +29,12 @@
                                     </div>
                                 </a>
                             @elseif($title == "music")
-                                <a class="card col-3 col-md-2 col-lg-2 col-xl-1 bg-gray border-0 mb-2 text-white"
+                                <a class="card col-3 col-md-2 col-lg-2 col-xl-1 bg-gray border-0 mb-2 text-white text-decoration-none "
                                    href="{{route('index_music', $item->id)}}">
-                                    <img src="{{asset('storage/'.$item->photo)}}" class="w-100 rounded" alt="...">
-                                    <div class="card-body p-0 mx-0 mt-1 fs-6 text-center">
+                                    <img src="{{asset('storage/'.$item->photo)}}" class="img-fluid rounded shadow" alt="...">
+                                    <div class="card-body p-0 mx-0 mt-1 fs-6 text-start d-flex flex-column">
                                         <h5 class="m-0 fs-6">{{$item->name}}</h5>
+                                        <h6 class="text-secondary mt-1">{{$item->band_name}}</h6>
                                     </div>
                                 </a>
                             @elseif($title == "album")
@@ -45,9 +46,11 @@
                                     </div>
                                 </a>
                             @endif
-
                         @endforeach
                     </div>
+                    @if($items instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                        {{$items->links()}}
+                    @endif
                 </div>
             </div>
         </div>

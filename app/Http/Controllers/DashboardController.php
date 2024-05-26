@@ -9,10 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
-class DashboardController extends Controller
+class DashboardController
 {
 
     public function indexDashboard(){
+
         $allBands = $this->getAllBands();
         $allAlbums = $this->getAllAlbums();
         $allMusics = $this->getAllMusics();
@@ -20,8 +21,9 @@ class DashboardController extends Controller
     }
     private function getAllMusics(){
         $allMusics = Music::get();
+        $musicModel = new Music();
         foreach ($allMusics as $music){
-            $music = MusicController::getMusicDetails($music);
+            $music = $musicModel->getMusicDetails($music);
         }
         return $allMusics;
     }

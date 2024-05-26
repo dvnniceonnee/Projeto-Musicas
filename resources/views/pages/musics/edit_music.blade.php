@@ -1,7 +1,7 @@
 @extends('layouts.musicBar')
 @section('contentPage')
     <div class="container-fluid d-flex col-12 col-md-10 me-0 ps-0 pe-0">
-        <div class="container-fluid ps-2 bg-gray rounded-3 vh-100">
+        <div class="container-fluid ps-2 bg-gray rounded-3 h-100">
             <div class="d-flex">
                 <button class="btn mx-0 p-1"><i class="bi bi-arrow-left-circle-fill fs-2 text-secundary"></i>
                 </button>
@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            <div class="card mb-3 mt-4 mx-2 bg-gray border-0" style="max-width: 750px;">
+            <div class="mb-3 mt-4 mx-2 bg-gray border-0 col-12 d-flex flex-row justify-content-start">
                 @if(session('message'))
                     <div class="alert alert-success text-center d-inline mx-auto" role="alert">
                         {{ session('message')}}
@@ -40,7 +40,7 @@
                 @endif
                 <form action="{{route('edit_music')}}" method="POST" enctype="multipart/form-data" class="row">
                     @csrf
-                    <div class="col-md-6 position-relative mx-auto w-50">
+                    <div class="col-12 col-md-6 col-lg-5 col-xl-3 position-relative me-4">
                         <img src="{{asset('storage/'.$music->photo)}}" id="imageMusic"
                              class="img-fluid rounded" alt="...">
                         <button type="button"
@@ -52,12 +52,14 @@
                             </label>
                         </button>
                     </div>
-                    <div class="col-md-5 d-flex flex-column">
-                        <div class="container d-flex flex-column justify-content-end mt-3 col-8 me-0">
-                            <button type="submit" class="btn btn-warning col-12 my-2 rounded-pill ">Salvar</button>
+                    <div class="col-12 col-md-6 col-lg-5 col-xl-3 d-flex flex-column">
+                        <div class="container d-flex flex-column justify-content-end mt-3 col-12 col-md-8 me-0">
+                            <button type="submit" class="btn btn-warning col-12 my-2 rounded-pill">Salvar</button>
+                            @if(Auth::user()->type == \App\Models\User::Type_Admin)
                             <button class="btn btn-danger col-12 rounded-pill" type="button" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">Apagar Musica
                             </button>
+                            @endif
                         </div>
                         <div class="card-body text-white d-flex flex-column justify-content-end">
                             <input type="text" name="id" value="{{$music->id}}" hidden="">

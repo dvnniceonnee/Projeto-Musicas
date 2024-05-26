@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('userfavourites', function (Blueprint $table) {
             $table->unsignedBigInteger('music_id');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('music_id')->references('id')->on('pages');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('music_id')->references('id')->on('musics')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

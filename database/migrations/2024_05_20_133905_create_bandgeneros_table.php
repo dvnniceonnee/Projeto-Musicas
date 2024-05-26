@@ -15,8 +15,8 @@ return new class extends Migration
             $table->unsignedBigInteger('band_id');
             $table->unsignedBigInteger('genero_id');
             $table->primary(['band_id', 'genero_id']);
-            $table->foreign('band_id')->references('id')->on('bands');
-            $table->foreign('genero_id')->references('id')->on('generos');
+            $table->foreign('band_id')->references('id')->on('bands')->onDelete('cascade');
+            $table->foreign('genero_id')->references('id')->on('generos')->onDelete('cascade');
         });
     }
 

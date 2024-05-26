@@ -1,24 +1,29 @@
 @extends('layouts.master')
 @section('content')
-    <div class="container-fluid">
-        <div class="row d-flex flex-row">
+    <div class="container-fluid p-0">
+        @if(session('verify'))
+            <div class="alert alert-danger text-center" role="alert">
+                {{ session('verify') }}
+            </div>
+        @endif
+        <div class="d-flex flex-column flex-md-row">
             <div class="d-none d-md-flex col-4 col-md-2 ps-0 pe-1 ">
                 <div class="d-flex flex-column bg-gray rounded-3 w-100">
                     <div class="row my-1 d-flex flex-column mt-3 px-3">
                         <div class="col-12 col-md-12 col-lg-12 col-xl-8 ">
-                            <a href="{{route('route_Page', 'musics')}}">
+                            <a href="{{route('index_all', 'musics')}}">
                                 <button type="button" class="btn btn-secondary rounded-pill mb-2 col-12 p-0 py-1">All Musics
                                 </button>
                             </a>
                         </div>
                         <div class="col-12 col-md-12 col-lg-12 col-xl-8">
-                            <a href="{{route('route_Page', 'bands')}}">
+                            <a href="{{route('index_all', 'bands')}}">
                                 <button type="button" class="btn btn-secondary rounded-pill mb-2 col-12 p-0 py-1">All Bands
                                 </button>
                             </a>
                         </div>
                         <div class="col-12 col-md-12 col-lg-12 col-xl-8">
-                            <a href="{{route('route_Page', 'albums')}}">
+                            <a href="{{route('index_all', 'albums')}}">
                                 <button type="button" class="btn btn-secondary rounded-pill mb-2 col-12 p-0 py-1">All Albuns
                                 </button>
                             </a>

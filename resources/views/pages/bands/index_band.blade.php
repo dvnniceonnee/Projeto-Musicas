@@ -9,14 +9,16 @@
                 </button>
             </div>
             <div class="card mb-3 mt-4 mx-2 bg-gray border-0" style="max-width: 750px;">
-                <div class="row g-0">
-                    <div class="col-md-6 d-flex ">
+                <div class="row g-0 d-flex flex-row">
+                    <div class="col-md-6 d-flex flex-column">
                         <img src="{{asset('storage/'.$band->photo)}}" class="img-fluid rounded" alt="...">
                     </div>
-                    <div class="col-md-6 d-flex flex-column">
+                    <div class="col-md-6 col-lg-5 d-flex flex-column mt-3">
+                        @auth
                         <div class="container d-flex justify-content-end">
                             <a href="{{route('edit_band_view', $band->id)}}" class="btn btn-warning rounded-pill">Edit</a>
                         </div>
+                        @endauth
                         <div class="card-body text-white d-flex flex-column justify-content-end mt-5">
                             <h3 class="card-title fw-bold">{{$band->name}}</h3>
                             <h6 class="card-title">Founded at: {{$band->founded_at != null ? $band->founded_at : "Não definido" }} </h6>

@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pages', function (Blueprint $table) {
+        Schema::create('musics', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
             $table->string('photo')->default('music/musicCoverDefault.png');
             $table->unsignedBigInteger('band_id');
             $table->double('length');
-            $table->foreign('band_id')->references('id')->on('bands');
+            $table->foreign('band_id')->references('id')->on('bands')->onDelete('cascade');
             $table->unsignedBigInteger('album_id');
-            $table->foreign('album_id')->references('id')->on('albums');
+            $table->foreign('album_id')->references('id')->on('albums')->onDelete('cascade');
         });
     }
 

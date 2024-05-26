@@ -18,12 +18,12 @@
                     <h4 class="text-white">Mix's</h4>
                     <div class="row p-0 mt-3">
                         @foreach($mixes as $mix)
-                        <div class="card col-6 col-md-3 col-lg-2 bg-gray border-0 mb-2 text-white">
+                        <a class="card col-6 col-md-3 col-lg-2 bg-gray border-0 mb-2 text-white text-decoration-none" href="{{route('index_all', $mix->name)}}">
                             <img src="{{asset("storage/". $mix->photo)}}" class="w-100 rounded" alt="...">
                             <div class="card-body p-0 mx-0 mt-1">
                                 <h5 class="m-0">Mix {{$mix->name}}</h5>
                             </div>
-                        </div>
+                        </a>
                         @endforeach
                     </div>
                 </div>

@@ -70,6 +70,30 @@ function checkAlbum(element) {
     check.classList.add('btn-success')
 }
 
+const modalDashboard = document.getElementById('modalDashboard')
+if (modalDashboard) {
+    modalDashboard.addEventListener('show.bs.modal', event => {
+        // Button that triggered the modal
+        const button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        const type = button.getAttribute('data-bs-type')
+        const name = button.getAttribute('data-bs-name')
+        const id = button.getAttribute('data-bs-id')
+
+        // Update the modal's content.
+        const modalMessage = modalDashboard.querySelector('#modalDashboardAlert')
+        const modalButton = modalDashboard.querySelector('#modalDeleteButton')
+
+        if(type === "band"){
+            modalMessage.textContent = 'Deseja apagar a '+type+' '+name+' e todos os seus albums e musicas?'
+        }else if(type === "album"){
+            modalMessage.textContent = 'Deseja apagar a '+type+' '+name+' e todas as suas musicas?'
+        }else {
+            modalMessage.textContent = 'Deseja apagar a '+type+' '+name+' ?'
+        }
+        modalButton.href = 'http://127.0.0.1:8000/'+type+'/delete/'+id
+    })
+}
 
 let tableBands = new DataTable('#TableBands', {
     responsive: true,

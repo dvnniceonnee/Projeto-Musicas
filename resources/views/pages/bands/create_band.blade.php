@@ -58,11 +58,11 @@
                             </div>
                             <div class="mb-2 d-flex flex-column">
                                 <label for="inputBand_genres" class="form-label">Genres</label>
-                                <select class="selectpicker w-100"
+                                <select class="selectpicker w-100 form-control"
                                         onchange="addGenreToList()" data-actions-box="true" name="inputGenres[]"
                                         id="selectInput" data-live-search="true" title="Add Multiple Genres"
-                                        data-live-search-placeholder="Search" multiple
-                                        data-selected-text-format="static">
+                                        data-live-search-placeholder="Search" multiple data-size="5" data-width="fit"
+                                        data-selected-text-format="values">
                                     @foreach($genres as $genre)
                                         <option value="{{$genre->id}}">{{$genre->name}}</option>
                                     @endforeach

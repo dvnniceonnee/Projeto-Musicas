@@ -1,9 +1,15 @@
 @extends('layouts.musicBar')
 @section('contentPage')
     <div class="d-flex col-12 col-md-7 mt-2 mt-md-0 px-1">
-        <div class="container-fluid bg-gray rounded vh-100">
-            <div class="d-flex flex-column">
-                <form action="{{route('update_user_profile')}}" method="POST" class="text-white " enctype="multipart/form-data">
+        <div class="container-fluid bg-gray rounded h-100 ">
+            <div class="d-flex flex-column ">
+                @if(session('verifyEmail'))
+                <div class="alert alert-success mt-3" role="alert">
+                    {{session('verifyEmail')}}
+                </div>
+                @endif
+                <form action="{{route('update_user_profile')}}" method="POST" class="text-white"
+                      enctype="multipart/form-data">
                     @csrf
                     <div class="row col-12">
                         <div class="position-relative col-10 col-md-2 mt-5">
@@ -26,7 +32,8 @@
                     <div class="col-9 col-md-4 mt-2">
                         <div class="mb-3">
                             <label for="inputName" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="inputName" name="user_name" aria-describedby="emailHelp"
+                            <input type="text" class="form-control" id="inputName" name="user_name"
+                                   aria-describedby="emailHelp"
                                    placeholder="{{Auth::User()->name}}" value="{{Auth::User()->name}}">
                         </div>
                         <div class="mb-3">
@@ -42,19 +49,25 @@
     <div class="d-flex col-12 col-md-3 mt-2 mt-md-0 ps-1 pe-1">
         <div class="container-fluid bg-gray rounded d-flex flex-column text-white p-3">
             <h4 class="">Your Music Favourites</h4>
-            <ul class="text-center d-flex container-fluid row gap-0" id="listFavourites">
+            <ul class="text-center d-flex flex-wrap container-fluid gap-0" id="listFavourites">
                 @foreach($userFavourites as $userFavourite)
-                <li class="col-3 list-group-item text-decoration-none position-relative border-0 ">
-                    <div class="container-fluid rounded border bg-transparent pt-3 px-3 ">
-                        <img src="{{asset('storage/'.$userFavourite->photo)}}" class="img-fluid rounded" alt="...">
-                        <a href="{{route('add_favourites_music', $userFavourite->music_id)}}" class="position-absolute top-0 end-0 m-0 text-danger mx-2"><i
-                                class="bi bi-x-circle-fill fs-4"></i></a>
-                        <div class="card-body text-white m-0">
-                            <h5 class="card-title fw-bold">{{$userFavourite->music_name}}</h5>
-                            <h6 class="">{{$userFavourite->band_name}}</h6>
+                    <li class="col-4 list-group-item text-decoration-none position-relative border-0 ">
+                        <div class="container-fluid rounded border bg-transparent pt-3 px-3 h-100">
+                            <a href="{{route('add_favourites_music', $userFavourite->music_id)}}"
+                               class="btn-danger position-absolute top-0 end-0 m-0 text-danger mx-2"><i
+                                    class="bi bi-x-circle-fill fs-4"></i></a>
+                            <a href="{{route('index_music', $userFavourite->music_id)}}" class="text-decoration-none">
+                                <img src="{{asset('storage/'.$userFavourite->photo)}}" class="img-fluid rounded"
+                                     alt="...">
+
+                                <div class="card-body text-white m-0">
+                                    <h5 class="card-title fw-bold">{{$userFavourite->music_name}}</h5>
+                                    <h6 class="">{{$userFavourite->band_name}}</h6>
+                                </div>
+                            </a>
                         </div>
-                    </div>
-                </li>@endforeach
+                    </li>
+                @endforeach
 
             </ul>
         </div>

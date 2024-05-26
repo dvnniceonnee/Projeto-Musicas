@@ -9,21 +9,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
-class AlbumController extends Controller
+class AlbumController
 {
     public function indexAlbum($idAlbum){
         $album = $this->getAlbumDetails($idAlbum);
-        $randomBarMusics = IndexController::getRandomMusics();
+        $randomBarMusics = Music::getRandomMusics();
         $allMusicsOfAlbum = $this->getAllMusicsOfAlbum($idAlbum);
-        $albumsOfBand = BandController::getAlbumsOfBand($album->band_id);
+        $albumsOfBand = Band::getAlbumsOfBand($album->band_id);
         return view('pages.albums.index_album', compact('randomBarMusics', 'album', 'allMusicsOfAlbum', 'albumsOfBand'));
     }
 
     public function getAlbumDetails($idAlbum){
         $album = Album::where('id', $idAlbum)->first();
-        $album->genres_band = BandController::getGenresOfBand($album->band_id);
+        $album->genres_band = Band::getGenresOfBand($album->band_id);
         $album->band_name = Band::where('id', $album->band_id)->first()->name;
-        $album->number_trancks = $this->getAllMusicsOfAlbum($idAlbum)->count();
+        $album->number_tracks = $this->getAllMusicsOfAlbum($idAlbum)->count();
         return $album;
     }
 
@@ -43,7 +43,7 @@ class AlbumController extends Controller
             $allBands = Band::get()->all();
             $bandExists = false;
         }
-        $randomBarMusics = IndexController::getRandomMusics();
+        $randomBarMusics = Music::getRandomMusics();
         return view('pages.albums.create_album', compact('bandExists', 'allBands', 'randomBarMusics'));
     }
 
@@ -71,8 +71,9 @@ class AlbumController extends Controller
     public function editAlbumView($albumId){
         $album = Album::where('id', $albumId)->first();
         if($album){
-            $randomBarMusics = IndexController::getRandomMusics();
-            return view('pages.albums.edit_album', compact('album', 'randomBarMusics'));
+            $allMusicsOfAlbum = Music::where('album_id', $albumId)->paginate(10);
+            $randomBarMusics = Music::getRandomMusics();
+            return view('pages.albums.edit_album', compact('album', 'randomBarMusics', 'allMusicsOfAlbum'));
         }
         else{
             return redirect()->route('route_home');

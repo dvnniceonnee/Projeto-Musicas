@@ -1,0 +1,9 @@
+INSERT INTO `projetomusicas`.`generos` (`name`) VALUES
+Pop
+Rock
+House
+Metal
+Techno
+Bass
+Jazz
+Hard Rock

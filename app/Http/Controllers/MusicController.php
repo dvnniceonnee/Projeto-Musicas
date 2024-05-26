@@ -10,57 +10,38 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Collection;
 use function Symfony\Component\VarDumper\Dumper\esc;
 
-class MusicController extends Controller
+class MusicController extends Music
 {
     public function indexMusic($idmusic)
     {
         if(!Music::where('id', $idmusic)->exists()){
             return view('Errors.fallback');
         }
-        $randomBarMusics = IndexController::getRandomMusics();
+        $randomBarMusics = Music::getRandomMusics();
         $favoritosuser = DB::table('userfavourites')->where('user_id', Auth::id())->get();
         $music = $this->getMusic($idmusic);
         $randomMusics = Arr::take(Arr::shuffle(Music::where('band_id', $music->band_id)->get()->all()), 15);
-        $this->getSimilarMusics($music->band_id);
+        $similarMusics = $this->getSimilarMusics($music->band_id);
         $music->favourite_user = $favoritosuser->contains('music_id', $idmusic);
-        return view('pages.musics.index_music', compact('randomBarMusics', 'music', 'randomMusics'));
-    }
 
-    public function addToFavourites($idMusic)
-    {
-        $favoritos = DB::table('userfavourites')->where('user_id', Auth::id())->get();
-        if ($favoritos->contains('music_id', $idMusic)) {
-            DB::table('userfavourites')->where(['user_id' => Auth::user()->id, 'music_id' => $idMusic])->delete();
-        } else {
-            DB::table('userfavourites')->insert([
-                'music_id' => $idMusic,
-                'user_id' => Auth::user()->id,
-            ]);
-        }
-        return redirect()->back();
+        return view('pages.musics.index_music', compact('randomBarMusics', 'music', 'randomMusics', 'similarMusics'));
     }
 
     private function getSimilarMusics($bandId)
     {
-        $genres[] = BandController::getGenresOfBand($bandId);
-        $musics[] = [];
-    }
-
-    private function getMusic($idmusic)
-    {
-        $music = Music::where('id', $idmusic)->first();
-        Arr::add($music, 'band_name', Band::where('id', $music->band_id)->first()->name);
-        Arr::add($music, 'album_name', Album::where('id', $music->album_id)->first()->name);
-        return $music;
-    }
-
-    public static function getMusicDetails($music)
-    {
-        Arr::add($music, 'band_name', Band::where('id', $music->band_id)->first()->name);
-        Arr::add($music, 'album_name', Album::where('id', $music->album_id)->first()->name);
-        return $music;
+        $genresOfBand = Band::getIdOfGenresOfBand($bandId);
+        $musics =  collect([]);
+        $musicModel = new Music();
+        foreach ($genresOfBand as $genre){
+            $musicsByGenre = $musicModel->getAllMusicsByGenre($genre->genero_id);
+            $musics->put('musics', $musicsByGenre);
+        }
+        $musics = $musics['musics'];
+        $musics = $musics->random((fn (Collection $items) => min(20, count($items))))->all();
+        return $musics;
     }
 
     public function createMusicView($idBand, $idAlbum)
@@ -72,22 +53,23 @@ class MusicController extends Controller
             $albums = Album::where('band_id', $idBand)->get();
         }
         else{
-            if($album->count() > 0){
+            if($album->count() == 1){
                 $albums = $album;
             }
             else{
                 $albums = Album::get();
             }
         }
-        $randomBarMusics = IndexController::getRandomMusics();
+        $randomBarMusics = Music::getRandomMusics();
 
-        return view('pages.musics.create_music', compact('albums', 'randomBarMusics'));
+        return view('pages.musics.create_music', compact('albums', 'randomBarMusics', 'album'));
     }
 
     public function editMusicView($idMusic)
     {
-        $randomBarMusics = IndexController::getRandomMusics();
-        $music = $this->getMusic($idMusic);
+        $randomBarMusics = Music::getRandomMusics();
+        $musicModel = new Music();
+        $music = $musicModel->getMusic($idMusic);
         return view('pages.musics.edit_music', compact('randomBarMusics', 'music'));
     }
 
@@ -127,6 +109,9 @@ class MusicController extends Controller
                 ]);
             }
             return redirect()->back()->with('message', 'Musica atualizada com sucesso');
+        }
+        else{
+            return redirect()->route('fallback');
         }
     }
 

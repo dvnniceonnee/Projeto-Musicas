@@ -1,15 +1,34 @@
 @extends('layouts.master')
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid p-0">
         @if(session('message'))
             <div class="alert alert-success text-center mx-auto w-50" role="alert">
                 {{session('message')}}
             </div>
         @endif
-        <div class="row p-0">
+        <div class="modal fade" id="modalDashboard" tabindex="-1" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">Atenção <i class="bi bi-exclamation-triangle-fill"></i></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="alert alert-danger m-3" role="alert">
+                        <h5 id="modalDashboardAlert"></h5>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <a type="button" class="btn btn-danger" href="" id="modalDeleteButton">Apagar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-column flex-md-row">
             {{--Bands--}}
-            <div class="container-fluid col-12 col-md-4 p-1 pt-0 ">
-                <div class="d-flex flex-column p-3 text-white bg-gray rounded vh-100">
+            <div class="container-fluid col-12 col-md-4 p-1 pt-0">
+                <div class="d-flex flex-column p-3 text-white bg-gray rounded h-100">
                     <div class="d-flex d-flex justify-content-between mb-3">
                         <h4 class="rounded-pill">Lista de Bandas</h4>
                         <a href="{{route('create_band')}}">
@@ -43,7 +62,11 @@
                                                 class="bi bi-pencil-square"></i></a>
                                     </td>
                                     <td>
-                                        <button class="btn btn-danger rounded-circle px-1 py-0"><i
+                                        <button type="button" class="btn btn-danger rounded-circle px-1 py-0"
+                                                data-bs-toggle="modal" data-bs-target="#modalDashboard"
+                                                data-bs-type="band" data-bs-name="{{$band->name}}"
+                                                data-bs-id="{{$band->id}}"
+                                        ><i
                                                 class="bi bi-trash"></i>
                                         </button>
                                     </td>
@@ -55,7 +78,7 @@
             </div>
             {{--Albums--}}
             <div class="container-fluid col-12 col-md-4 p-1 pt-0 ">
-                <div class="d-flex flex-column p-3 text-white bg-gray rounded vh-100">
+                <div class="d-flex flex-column p-3 text-white bg-gray rounded h-100">
                     <div class="d-flex d-flex justify-content-between mb-3">
                         <h4 class="rounded-pill">Lista de Albums</h4>
                         <a href="{{route('create_album', -1)}}">
@@ -94,10 +117,13 @@
                                                 class="bi bi-pencil-square"></i></a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-danger rounded-circle px-1 py-0"
-                                           href="{{route('delete_album', $album->id)}}"><i
+                                        <button type="button" class="btn btn-danger rounded-circle px-1 py-0"
+                                                data-bs-toggle="modal" data-bs-target="#modalDashboard"
+                                                data-bs-type="album" data-bs-name="{{$album->name}}"
+                                                data-bs-id="{{$album->id}}"
+                                        ><i
                                                 class="bi bi-trash"></i>
-                                        </a>
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -107,7 +133,7 @@
             </div>
             {{--Musics --}}
             <div class="container-fluid col-12 col-md-4 p-1 pt-0 ">
-                <div class="d-flex flex-column p-3 text-white bg-gray rounded vh-100">
+                <div class="d-flex flex-column p-3 text-white bg-gray rounded  h-100">
                     <div class="d-flex d-flex justify-content-between mb-3">
                         <h4 class="rounded-pill">Lista de Musicas</h4>
                         <a href="{{route('create_music', [-1, -1])}}">
@@ -142,13 +168,18 @@
                                             href="{{route('index_album', $music->album_id)}}">{{$music->album_name}}</a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-warning rounded-circle px-1 py-0" href="{{route('edit_music_view', $music->id)}}"><i
+                                        <a class="btn btn-warning rounded-circle px-1 py-0"
+                                           href="{{route('edit_music_view', $music->id)}}"><i
                                                 class="bi bi-pencil-square"></i></a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-danger rounded-circle px-1 py-0" href="{{route('delete_music', $music->id)}}"><i
+                                        <button type="button" class="btn btn-danger rounded-circle px-1 py-0"
+                                                data-bs-toggle="modal" data-bs-target="#modalDashboard"
+                                                data-bs-type="music" data-bs-name="{{$music->name}}"
+                                                data-bs-id="{{$music->id}}"
+                                        ><i
                                                 class="bi bi-trash"></i>
-                                        </a>
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <link href="https://cdn.datatables.net/v/bs5/dt-2.0.7/datatables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.bootstrap5.min.css">
     <link
@@ -24,8 +25,8 @@
         <div class="container-fluid">
             <a class="text-white m-0 col-2 text-decoration-none" href="{{route('route_home')}}"><i
                     class="bi bi-house-door"></i><Span class="ms-2 e">Início</Span></a>
-            <form class="d-flex col-6 mx-auto w-50" role="search">
-                <input class="form-control me-2 rounded-3" type="search" placeholder="Search Musics"
+            <form class="d-flex col-6 mx-auto w-50" role="search" action="{{route('index_all', "musics")}}" method="GET">
+                <input class="form-control me-2 rounded-3" type="search" name="search" value="{{ request()->query('search') }}" placeholder="Search Musics"
                        aria-label="Search">
                 <button class="btn text-white" type="submit"><i class="bi bi-search"></i></button>
             </form>
@@ -76,9 +77,9 @@
     <div class="container-fluid mt-0 bg-gray rounded-2 text-white p-2">
         <ul class="nav justify-content-center border-bottom w-50 mx-auto pb-3 mb-3">
             <li class="nav-item"><a href="{{route('route_home')}}" class="nav-link px-2 text-white">Home</a></li>
-            <li class="nav-item"><a href="{{route('route_Page', 'pages')}}" class="nav-link px-2">Musics</a></li>
-            <li class="nav-item"><a href="{{route('route_Page', 'albums')}}" class="nav-link px-2">Albums</a></li>
-            <li class="nav-item"><a href="{{route('route_Page', 'bands')}}" class="nav-link px-2">Bands</a></li>
+            <li class="nav-item"><a href="{{route('index_all', 'pages')}}" class="nav-link px-2">Musics</a></li>
+            <li class="nav-item"><a href="{{route('index_all', 'albums')}}" class="nav-link px-2">Albums</a></li>
+            <li class="nav-item"><a href="{{route('index_all', 'bands')}}" class="nav-link px-2">Bands</a></li>
             <li class="nav-item"><a href="{{route('register')}}" class="nav-link px-2">Register</a></li>
         </ul>
         <p class="text-center mb-3">© 2024 Miguel Madureira, Software Developer</p>

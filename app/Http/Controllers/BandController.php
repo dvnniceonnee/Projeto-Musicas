@@ -12,55 +12,21 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use function Sodium\add;
 
-class BandController extends Controller
+class BandController
 {
     public function viewBand($idBand)
     {
-        $band = $this->getDetailsBand($idBand);
-        $allAlbumsOfBand = $this->getAlbumsOfBand($idBand);
-        $randomBarMusics = IndexController::getRandomMusics();
-        /*
-                $allMusicsOfBand = Arr::where($allMusics, function($value) use ($id) {
-                    return $value['band_id'] == $id;
-                });*/
+        $band = Band::getDetailsBand($idBand);
+        $allAlbumsOfBand = Band::getAlbumsOfBand($idBand);
+        $randomBarMusics = Music::getRandomMusics();
         $allMusicsOfBand = Music::where('band_id', $idBand)->paginate(10);
         return view('pages.bands.index_band', compact('band', 'allAlbumsOfBand', 'allMusicsOfBand', 'randomBarMusics'));
-    }
-
-    public static function getAlbumsOfBand($idBand)
-    {
-        $albumsOfBand = Album::where('band_id', $idBand)->get();
-        return $albumsOfBand;
-    }
-
-    private function getDetailsBand($id)
-    {
-        $band = Band::where('id', $id)->first();
-        $countryBand = DB::table('countries')->where('id', $band->country_id)->first()->name;
-        $band = Arr::add($band, 'band_country', $countryBand);
-        $band = Arr::add($band, 'band_genres', $this->getGenresOfBand($id));
-        return $band;
-    }
-
-    /**
-     * @param $id Id of The band that we want to search for the genres
-     * @return array With all the genres names
-     */
-    public static function getGenresOfBand($id)
-    {
-        $genresBand = DB::table('bandgeneros')->where('band_id', $id)->get();
-        $genres = [];
-        foreach ($genresBand as $genre) {
-            $newArray = collect(['genre_id' => $genre->genero_id, 'genre_name' => Genero::where('id', $genre->genero_id)->first()->name]);
-            array_push($genres, $newArray);
-        }
-        return $genres;
     }
 
     public function createBandView()
     {
         $paises = DB::table("countries")->get()->all();
-        $randomBarMusics = IndexController::getRandomMusics();
+        $randomBarMusics = Music::getRandomMusics();
         $genres = Genero::get()->all();
         return view('pages.bands.create_band', compact('paises', 'genres', 'randomBarMusics'));
     }
@@ -140,7 +106,7 @@ class BandController extends Controller
     public function editBandView($bandId)
     {
         $countries = DB::table("countries")->get()->all();
-        $randomBarMusics = IndexController::getRandomMusics();
+        $randomBarMusics = Music::getRandomMusics();
         $band = Band::where('id', $bandId)->get()->first();
         $allAlbumsOfBand = $this->getAlbumsOfBand($bandId);
         $allMusicsOfBand = Music::where('band_id', $bandId)->paginate(10);

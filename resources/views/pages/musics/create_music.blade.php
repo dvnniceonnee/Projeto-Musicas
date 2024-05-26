@@ -30,10 +30,11 @@
                                         <h5 class="text-white">Choose the Album of the Music</h5>
                                         <div class="container-fluid p-0 ">
                                             @foreach($albums as $album)
+
                                                 <input type="radio" class="btn-check " name="album_id"
-                                                       id="option{{$album->id}}"
+                                                       id="option{{$album->id}}" @if($albums->count() == 1) checked @endif
                                                        autocomplete="off" value="{{$album->id}}">
-                                                <label class="btn col-5 col-md-3" for="option{{$album->id}}"
+                                                <label class="btn col-5 col-md-3 @if($albums->count() == 1) btn-success @endif " for="option{{$album->id}}"
                                                        id="labeloption{{$album->id}}"
                                                        onclick="checkAlbum(this)">
                                                     <div class="card w-100 bg-transparent border-0 mb-2 text-white">

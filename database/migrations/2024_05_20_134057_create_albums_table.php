@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('photo')->default('music/musicCoverDefault.png');
             $table->string('name')->unique();
             $table->unsignedBigInteger('band_id');
-            $table->foreign('band_id')->references('id')->on('bands');
+            $table->foreign('band_id')->references('id')->on('bands')->onDelete('cascade');
         });
     }
 

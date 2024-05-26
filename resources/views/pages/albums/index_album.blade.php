@@ -9,18 +9,20 @@
                 </button>
             </div>
             <div class="card mb-3 mt-4 mx-2 bg-gray border-0" style="max-width: 750px;">
-                <div class="row g-0">
-                    <div class="col-md-6">
+                <div class="row g-0 d-flex flex-row">
+                    <div class="col-md-6 d-flex flex-column">
                         <img src="{{asset('storage/'.$album->photo)}}" class="img-fluid rounded" alt="...">
                     </div>
                     <div class="col-md-6 d-flex flex-column ">
+                        @auth
                         <div class="container d-flex justify-content-end mt-3">
                             <a href="{{route('edit_album_view', $album->id)}}" class="btn btn-warning w-25 rounded-pill">Edit</a>
                         </div>
+                        @endauth
                         <div class="card-body text-white d-flex flex-column justify-content-end">
                             <h3 class="card-title fw-bold text-capitalize">{{$album->name}}</h3>
                             <h5 class="card-title">Type : Album</h5>
-                            <h5 class="card-title">Band : {{$album->band_name}}</h5>
+                            <h5 class="card-title">Band : <a href="{{route('index_band', $album->band_id)}}">{{$album->band_name}}</a></h5>
                             <h5 class="card-title">Tracks : {{$album->number_tracks}} </h5>
                             <h5 class="card-title">Release at : {{$album->released_at}}</h5>
                             <h6>Genres :
@@ -33,10 +35,10 @@
             </div>
             <div class="d-flex flex-column mt-5">
                 <div class="container-fluid ">
-                    <h4 class="text-white text-capitalize">Content of Album</h4>
+                    <h4 class="text-white text-capitalize">Musics of this Album</h4>
                     <div class="row p-0 mt-3">
                         @foreach($allMusicsOfAlbum as $music)
-                        <a class="card col-3 col-md-2 col-lg-1 bg-gray border-0 mb-2 text-white" href="{{route('index_music', $music->id)}}">
+                        <a class="card col-3 col-md-2 col-lg-1 bg-gray border-0 mb-2 text-white text-decoration-none" href="{{route('index_music', $music->id)}}">
                             <img src="{{asset('storage/'.$music->photo)}}" class=" rounded" alt="...">
                             <div class="card-body p-0 mx-0 mt-1">
                                 <h6 class="m-0 fs-6">{{$music->name}}</h6>
@@ -45,7 +47,7 @@
                         @endforeach
                     </div>
                 </div>
-                <div class="container-fluid ">
+                <div class="container-fluid mt-5">
                     <h4 class="text-white text-capitalize">Others albums of this band</h4>
                     <div class="row p-0 mt-3 mb-5">
                         @foreach($albumsOfBand as $album)

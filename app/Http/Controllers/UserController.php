@@ -6,6 +6,7 @@ use App\Models\Album;
 use App\Models\Band;
 use App\Models\Music;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
-class UserController extends Controller
+class UserController extends User
 {
     public function indexUser(){
         $userFavourites = DB::table('userfavourites')->where('user_id', Auth::user()->id)->get();
@@ -24,7 +25,7 @@ class UserController extends Controller
             $userFavourite->music_name = $musicDetails->name;
             $userFavourite->photo = $music->photo;
         }
-        $randomBarMusics = IndexController::getRandomMusics();
+        $randomBarMusics = Music::getRandomMusics();
         return view('user.profile', compact('randomBarMusics', 'userFavourites'));
     }
 
@@ -37,12 +38,13 @@ class UserController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
 
-        User::insert([
+        $user=User::insertGetId([
             'name' => $request->first_name .' '. $request->last_name,
             'email'=> $request->email,
             'password'=> Hash::make($request->password)
         ]);
-
+        $user = User::where('id', $user)->first();
+        event(new Registered($user));
         return redirect()->route('login')->with('message', 'Registo efetuado com sucesso!');
     }
 
@@ -68,6 +70,19 @@ class UserController extends Controller
             ]);
         }
         return redirect()->back();
+    }
 
+    public function addToFavourites($idMusic)
+    {
+        $favoritos = DB::table('userfavourites')->where('user_id', Auth::id())->get();
+        if ($favoritos->contains('music_id', $idMusic)) {
+            DB::table('userfavourites')->where(['user_id' => Auth::user()->id, 'music_id' => $idMusic])->delete();
+        } else {
+            DB::table('userfavourites')->insert([
+                'music_id' => $idMusic,
+                'user_id' => Auth::user()->id,
+            ]);
+        }
+        return redirect()->back();
     }
 }

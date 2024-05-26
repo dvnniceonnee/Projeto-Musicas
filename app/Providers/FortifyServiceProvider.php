@@ -8,13 +8,16 @@ use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Laravel\Fortify\Contracts\LoginResponse;
+use Laravel\Fortify\Contracts\LoginViewResponse;
 use Laravel\Fortify\Contracts\LogoutResponse;
+use Laravel\Fortify\Contracts\RegisterResponse;
 use Laravel\Fortify\Fortify;
-use mysql_xdevapi\Session;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -23,12 +26,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->instance(LogoutResponse::class, new class implements LogoutResponse {
-            public function toResponse($request)
-            {
-                return redirect('/');
-            }
-        });
+
     }
 
     /**
@@ -51,15 +49,20 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
+        Fortify::requestPasswordResetLinkView(function () {
+            return view('auth.forgot_password');
+        });
+
+        Fortify::resetPasswordView(function (Request $request) {
+            return view('auth.reset_password', ['request' => $request]);
+        });
+
         Fortify::loginView(function () {
-            return view('user.login');
+            return view('auth.login');
         });
 
         Fortify::registerView(function (){
-            if(Auth::user()){
-                return redirect()->route('route_home');
-            }
-            return view('user.register');
+            return view('auth.register');
         });
     }
 }
