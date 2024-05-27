@@ -2,13 +2,13 @@
 @section('contentPage')
     <div class="container-fluid d-flex col-12 col-md-10 me-0 ps-0 pe-0">
         <div class="container-fluid ps-2 bg-gray rounded-3 h-100">
-            <div class="d-flex">
+            <div class="d-flex mb-3">
                 <button class="btn mx-0 p-1"><i class="bi bi-arrow-left-circle-fill fs-2 text-secundary"></i>
                 </button>
                 <button class="btn mx-0 p-1"><i class="bi bi-arrow-right-circle-fill fs-2 text-secundary"></i>
                 </button>
             </div>
-            <!-- Modal -->
+            @if(\App\Models\User::checkIfItsAdmin())
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
@@ -31,18 +31,18 @@
                     </div>
                 </div>
             </div>
-
-            <div class="mb-3 mt-4 mx-2 bg-gray border-0 col-12 d-flex flex-row justify-content-start">
-                @if(session('message'))
-                    <div class="alert alert-success text-center d-inline mx-auto" role="alert">
-                        {{ session('message')}}
-                    </div>
-                @endif
-                <form action="{{route('edit_music')}}" method="POST" enctype="multipart/form-data" class="row">
+            @endif
+            @if(session('message'))
+            <div class="alert alert-success text-center mx-auto my-2" role="alert">
+                    {{ session('message')}}
+                </div>
+            @endif
+            <div class="mb-3 mt-4 mx-2 bg-gray border-0 col-12 d-flex flex-row">
+                <form action="{{route('edit_music')}}" method="POST" enctype="multipart/form-data" class="d-flex flex-row">
                     @csrf
                     <div class="col-12 col-md-6 col-lg-5 col-xl-3 position-relative me-4">
                         <img src="{{asset('storage/'.$music->photo)}}" id="imageMusic"
-                             class="img-fluid rounded" alt="...">
+                             class="rounded img-fluid" alt="...">
                         <button type="button"
                                 class="position-absolute btn btn-dark bg-gray rounded-circle bottom-0 end-0 m-2">
                             <label class="bi bi-folder-plus fs-4 d-inline-block m-auto mt- text-white"
@@ -52,7 +52,7 @@
                             </label>
                         </button>
                     </div>
-                    <div class="col-12 col-md-6 col-lg-5 col-xl-3 d-flex flex-column">
+                    <div class="col-12 col-md-6 col-lg-5 col-xl-4 d-flex flex-column">
                         <div class="container d-flex flex-column justify-content-end mt-3 col-12 col-md-8 me-0">
                             <button type="submit" class="btn btn-warning col-12 my-2 rounded-pill">Salvar</button>
                             @if(Auth::user()->type == \App\Models\User::Type_Admin)

@@ -108,7 +108,7 @@ class BandController
         $countries = DB::table("countries")->get()->all();
         $randomBarMusics = Music::getRandomMusics();
         $band = Band::where('id', $bandId)->get()->first();
-        $allAlbumsOfBand = $this->getAlbumsOfBand($bandId);
+        $allAlbumsOfBand = Band::getAlbumsOfBand($bandId);
         $allMusicsOfBand = Music::where('band_id', $bandId)->paginate(10);
         return view('pages.bands.edit_band', compact('band', 'randomBarMusics', 'countries', 'allMusicsOfBand', 'allAlbumsOfBand'));
     }

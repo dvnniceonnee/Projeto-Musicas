@@ -12,25 +12,15 @@ use Illuminate\Support\Facades\Storage;
 class AlbumController
 {
     public function indexAlbum($idAlbum){
-        $album = $this->getAlbumDetails($idAlbum);
+        $album = Album::getAlbumDetails($idAlbum);
         $randomBarMusics = Music::getRandomMusics();
-        $allMusicsOfAlbum = $this->getAllMusicsOfAlbum($idAlbum);
+        $allMusicsOfAlbum = Album::getAllMusicsOfAlbum($idAlbum);
+        $album->number_tracks = $allMusicsOfAlbum->count();
         $albumsOfBand = Band::getAlbumsOfBand($album->band_id);
         return view('pages.albums.index_album', compact('randomBarMusics', 'album', 'allMusicsOfAlbum', 'albumsOfBand'));
     }
 
-    public function getAlbumDetails($idAlbum){
-        $album = Album::where('id', $idAlbum)->first();
-        $album->genres_band = Band::getGenresOfBand($album->band_id);
-        $album->band_name = Band::where('id', $album->band_id)->first()->name;
-        $album->number_tracks = $this->getAllMusicsOfAlbum($idAlbum)->count();
-        return $album;
-    }
 
-    private function getAllMusicsOfAlbum($idAlbum){
-        $allMusicsOfAlbum = Music::where('album_id', $idAlbum)->get();
-        return $allMusicsOfAlbum;
-    }
     public function createAlbumView($band_id){
         $band = Band::where('id', $band_id)->get()->first();
         $allBands = null;
@@ -59,7 +49,7 @@ class AlbumController
         if($request->hasFile('album_image')) {
             $photo = Storage::putFile("albums/", $request->album_image);
         }
-        $newAlbum = Album::insertgetId([
+        Album::insert([
             'name'=>$request->album_name,
             'photo'=> $photo ? $photo : 'music/musicCoverDefault.png',
             'band_id'=>$request->band_id,

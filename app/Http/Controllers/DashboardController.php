@@ -21,19 +21,17 @@ class DashboardController
     }
     private function getAllMusics(){
         $allMusics = Music::get();
-        $musicModel = new Music();
         foreach ($allMusics as $music){
-            $music = $musicModel->getMusicDetails($music);
+            $music = Music::getMusicDetails($music);
         }
         return $allMusics;
     }
     private function getAllAlbums(){
         $allAlbums = Album::get();
-        $albumController = new AlbumController();
         foreach ($allAlbums as $album){
-            $completeAlbum = $albumController->getAlbumDetails($album->id);
+            $completeAlbum = Album::getAlbumDetails($album->id);
             Arr::add($album, 'band_name', $completeAlbum->band_name);
-            Arr::add($album, 'number_tracks', $completeAlbum->number_tracks);
+            Arr::add($album, 'number_tracks', Album::getAllMusicsOfAlbum($album->id)->count());
         }
         return $allAlbums;
     }

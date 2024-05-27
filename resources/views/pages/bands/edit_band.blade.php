@@ -9,7 +9,7 @@
                 <button class="btn mx-0 p-1"><i class="bi bi-arrow-right-circle-fill fs-2 text-secundary"></i>
                 </button>
             </div>
-            <!-- Modal -->
+            @if(\App\Models\User::checkIfItsAdmin())
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
@@ -32,14 +32,13 @@
                     </div>
                 </div>
             </div>
-
+            @endif
             <div class="card mb-3 mt-4 mx-2 bg-gray border-0" style="max-width: 750px;">
                 @if(session('message'))
                     <div class="alert alert-success text-center d-inline mx-auto" role="alert">
                         {{ session('message')}}
                     </div>
                 @endif
-
                 <form action="{{route('edit_band')}}" method="POST" enctype="multipart/form-data" class="row">
                     @csrf
                     <div class="col-md-6 position-relative mx-auto w-50">
@@ -63,9 +62,11 @@
                     <div class="col-md-5 d-flex flex-column">
                         <div class="container d-flex flex-column justify-content-end mt-3 col-6 me-0">
                             <button type="submit" class="btn btn-warning col-12 my-2 rounded-pill">Salvar</button>
+                            @if(\App\Models\User::checkIfItsAdmin())
                             <button class="btn btn-danger col-12 rounded-pill" type="button" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">Apagar Banda
                             </button>
+                            @endif
                         </div>
                         <div class="card-body text-white d-flex flex-column justify-content-end">
                             <input type="text" name="id" value="{{$band->id}}" hidden>
@@ -122,7 +123,7 @@
                     <div class="container-fluid ">
                         <div class="d-flex flex-row ">
                             <h4 class="text-white text-capitalize my-auto">Musics</h4>
-                            <a class="mx-2 text-success mb-2 p-0" href="{{route('create_music',[ 1, 11])}}">Add<i class="bi bi-plus-lg"></i></a>
+                            <a class="mx-2 text-success mb-2 p-0" href="{{route('create_music',[ $band->id, -1])}}">Add<i class="bi bi-plus-lg"></i></a>
                         </div>
                         <div class="row p-0 mt-3 mb-5">
                             @foreach($allMusicsOfBand as $music)

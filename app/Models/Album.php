@@ -26,4 +26,16 @@ class Album extends Model
         }
         return $sixAlbums;
     }
+
+    public static function getAlbumDetails($idAlbum){
+        $album = Album::where('id', $idAlbum)->first();
+        $album->genres_band = Band::getGenresOfBand($album->band_id);
+        $album->band_name = Band::where('id', $album->band_id)->first()->name;
+        return $album;
+    }
+
+    public static function getAllMusicsOfAlbum($idAlbum){
+        $allMusicsOfAlbum = Music::where('album_id', $idAlbum)->get();
+        return $allMusicsOfAlbum;
+    }
 }

@@ -44,7 +44,7 @@
                                         <span class="mx-2">Profile</span><i class="bi bi-person-square"></i></button>
                                 </a>
                             </li>
-                            @if(Auth::user()->type == \App\Models\User::Type_Admin)
+                            @if(\App\Models\User::checkIfItsAdmin())
                                 <li class="my-1">
                                     <a class="dropdown-item text-center p-0" href="{{route('user_dashboard')}}">
                                         <button class="btn btn-secondary text-white w-100 rounded-pill" type="submit">

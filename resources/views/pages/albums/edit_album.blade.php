@@ -9,7 +9,7 @@
                 <button class="btn mx-0 p-1"><i class="bi bi-arrow-right-circle-fill fs-2 text-secundary"></i>
                 </button>
             </div>
-            <!-- Modal -->
+            @if(\App\Models\User::checkIfItsAdmin())
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-
+            @endif
             <div class="card mb-3 mt-4 mx-2 bg-gray border-0" style="max-width: 750px;">
                 @if(session('message'))
                     <div class="alert alert-success text-center d-inline mx-auto" role="alert">
@@ -61,9 +61,11 @@
                     <div class="col-md-5 d-flex flex-column">
                         <div class="container d-flex flex-column justify-content-end mt-3 col-6 me-0">
                             <button type="submit" class="btn btn-warning col-12 my-2 rounded-pill">Salvar</button>
+                            @if(\App\Models\User::checkIfItsAdmin())
                             <button class="btn btn-danger col-12 rounded-pill" type="button" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">Apagar Banda
                             </button>
+                            @endif
                         </div>
                         <div class="card-body text-white d-flex flex-column justify-content-end">
                             <input type="text" name="id" value="{{$album->id}}" hidden>

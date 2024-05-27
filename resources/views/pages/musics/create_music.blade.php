@@ -30,7 +30,6 @@
                                         <h5 class="text-white">Choose the Album of the Music</h5>
                                         <div class="container-fluid p-0 ">
                                             @foreach($albums as $album)
-
                                                 <input type="radio" class="btn-check " name="album_id"
                                                        id="option{{$album->id}}" @if($albums->count() == 1) checked @endif
                                                        autocomplete="off" value="{{$album->id}}">
@@ -48,6 +47,9 @@
                                                 </label>
                                             @endforeach
                                         </div>
+                                        @if($albums instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                                            {{$albums->links()}}
+                                        @endif
                                     </div>
                                     <div class="col-6 text-white">
                                         <div class="mb-3">

@@ -57,7 +57,7 @@ class MusicController extends Music
                 $albums = $album;
             }
             else{
-                $albums = Album::get();
+                $albums = Album::paginate(6);
             }
         }
         $randomBarMusics = Music::getRandomMusics();
